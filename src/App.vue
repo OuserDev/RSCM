@@ -4,6 +4,7 @@
     <router-link to="/about">About</router-link>
   </nav>
   <router-view/>
+  <rscmMap/>
 </template>
 
 <style>
@@ -28,3 +29,13 @@ nav a.router-link-exact-active {
   color: #42b983;
 }
 </style>
+
+<script>
+import rscmMap from "./components/rscmMap.vue"
+export default {
+  name: "App",
+  components: {
+    rscmMap,
+  },
+};
+</script>
