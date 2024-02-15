@@ -1,13 +1,12 @@
 <template>
-  <div>
+  <div >
     <h1>RSCM (RealTime-SNS-Crime-Map)</h1>
-    <div id="map"></div>
+    <div id="map" class="d-flex justify-content-center align-items-center"></div>
   </div>
 </template>
 
 <style scope>
 #map {
-  width: 50%;
   height: 800px;
 }
 body {
@@ -34,6 +33,7 @@ body {
 <script>
 import axios from "axios";
 import sidoJson from "@/assets/TL_SCCO_CTPRVN.json";
+import sidoJsonUp from "@/assets/TL_SCCO_SIG.json";
 
 export default {
   name: "rscmMap",
@@ -65,27 +65,38 @@ export default {
       document.head.appendChild(script);
     },
     loadMap(options) {
-      // CustomOverlay 인스턴스 생성
       this.customOverlay = new kakao.maps.CustomOverlay({});
-
-      // 지도를 표시할 컨테이너
-      const container = document.getElementById(options.mapId || "map"); // options.mapId를 사용하거나 기본값으로 "map" 사용
+      const container = document.getElementById(options.mapId || "map");
       const mapOptions = {
-        center: new kakao.maps.LatLng(36.26682, 127.57865), // 지도의 중심좌표
-        level: 12, // 지도의 확대 레벨
+        center: new kakao.maps.LatLng(36.26682, 127.57865),
+        level: 12,
       };
-
-      // 지도 생성
       this.map = new kakao.maps.Map(container, mapOptions);
+      this.polygons = []; // 폴리곤 저장 배열
+      this.loadPolygonData(sidoJson); // 초기 폴리곤 데이터 로드
 
-      // 폴리곤 데이터 로드 및 지도에 표시
-      this.loadPolygonData();
+      kakao.maps.event.addListener(this.map, "zoom_changed", () => {
+        var level = this.map.getLevel();
+        this.clearPolygons(); // 기존 폴리곤 제거
+        if (level > 10) {
+          this.loadPolygonData(sidoJson); // 기본 데이터 로드
+        } else {
+          this.loadPolygonData(sidoJsonUp); // 상세 데이터 로드
+        }
+      });
     },
-    loadPolygonData() {
-      sidoJson.features.forEach((feature) => {
+    loadPolygonData(data) {
+      data.features.forEach((feature) => {
         this.getPolyCode(feature);
       });
     },
+    clearPolygons() {
+      this.polygons.forEach((polygon) => {
+        polygon.setMap(null); // 지도에서 폴리곤 제거
+      });
+      this.polygons = []; // 폴리곤 배열 초기화
+    },
+
     getPolyCode(feature) {
       // coordinates 배열을 순회하여 모든 좌표를 처리
       const type = feature.geometry.type;
@@ -110,9 +121,9 @@ export default {
         path: path,
         strokeWeight: 2,
         strokeColor: "#003478",
-        strokeOpacity: 0.8,
+        strokeOpacity: 1,
         fillColor: "#fff",
-        fillOpacity: 0.7,
+        fillOpacity: 0.5,
       });
       // 폴리곤의 중심점을 계산
       const centroidPoint = this.centroid(path);
@@ -138,10 +149,9 @@ export default {
 
       kakao.maps.event.addListener(polygon, "mouseover", () => {
         polygon.setOptions({ fillColor: "#09f" });
-        this.customOverlay.setPosition(centroidPoint); // centroid 계산 로직에 path를 전달
-        // this.customOverlay.setContent(
-        //   `<div class='overlaybox'>${properties.CTP_KOR_NM}</div>`
-        // );
+        this.customOverlay.setContent(
+          `<div class='overlaybox'>${properties.CTP_KOR_NM}</div>`
+        );
         this.customOverlay.setMap(this.map);
       });
 
@@ -151,6 +161,7 @@ export default {
       });
 
       polygon.setMap(this.map);
+      this.polygons.push(polygon); // 생성된 폴리곤 저장
     },
     centroid(points) {
       let x = 0,
