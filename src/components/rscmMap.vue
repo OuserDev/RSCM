@@ -1,7 +1,20 @@
 <template>
-  <div >
-    <h1>RSCM (RealTime-SNS-Crime-Map)</h1>
-    <div id="map" class="d-flex justify-content-center align-items-center"></div>
+  <h1>RSCM (RealTime-SNS-Crime-Map)</h1>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col p-0" style="background: #696969; max-width:70px;">
+        <div class="m-3 mt-4"><img src="@/assets/home3.svg"></div>
+      </div>
+      <div class="col-4 container-fluid border border-secondary mx-0" style="background: #ffffff;">
+        <div class="row m-5">
+          <img class="col-1 img-fluid p-1" src="@/assets/warning.svg">
+          <span class="col display-5 text-start px-4">실시간 범죄 발생 현황</span>
+        </div>
+        <div class="row border-bottom border-secondary m-5"></div>
+        <div class="row display-5 m-5">최근 범죄 동향 통계</div>
+      </div>
+      <div id="map" class="col"></div>
+    </div>
   </div>
 </template>
 
