@@ -1,10 +1,5 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
   <router-view/>
-  <rscmMap/>
 </template>
 
 <style>
@@ -31,11 +26,9 @@ nav a.router-link-exact-active {
 </style>
 
 <script>
-import rscmMap from "./components/rscmMap.vue"
 export default {
   name: "App",
   components: {
-    rscmMap,
   },
 };
 </script>
