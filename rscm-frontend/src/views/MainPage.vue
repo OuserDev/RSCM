@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid">
+    <div class="container-fluid my-2 px-0">
         <headerVue/>
     </div>
     <div class="container-fluid">

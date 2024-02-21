@@ -1,31 +1,31 @@
 <template>
-    <div class="col p-0" style="background: #696969; max-width:70px;">
-      <div style="background-color: #003456;">
+    <div class="col p-0" style="background: #696969; max-width:3%;">
+      <div style="background-color: #003478;">
         <div class="p-3">
-          <img src="@/assets/svg/home3.svg">
+          <img class="img-fluid" src="@/assets/svg/home3.svg">
         </div>
       </div>
 
       <div>
         <div class="p-3 mt-1">
-          <img src="@/assets/svg/bar.svg">
+          <img class="img-fluid" src="@/assets/svg/bar.svg">
         </div>
       </div>
 
       <div>
         <div class="p-3 mt-1">
-          <img src="@/assets/svg/user.svg">
+          <img class="img-fluid" src="@/assets/svg/user.svg">
         </div>
       </div>
 
       <div>
         <div class="p-3 mt-1">
-          <img src="@/assets/svg/admin.svg">
+          <img class="img-fluid" src="@/assets/svg/admin.svg">
         </div>
       </div>
     </div>
 
-    <button class="col p-0 mb-0 border-0 fw-bold h5" @click="setToggleStatus" style="background: #a19e9e; max-width:40px;">
+    <button class="col p-0 mb-0 border-0 fw-bold h5" @click="setToggleStatus" style="background: #a19e9e; max-width:2%;">
       <span v-if="toggleStatus == 0">&gt;&gt;</span>
       <span v-if="toggleStatus == 1">&lt;&lt;</span>
     </button>
