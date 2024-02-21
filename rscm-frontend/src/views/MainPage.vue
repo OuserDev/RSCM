@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid my-2 px-0">
+    <div class="container-fluid mb-2 px-0">
         <headerVue/>
     </div>
     <div class="container-fluid">
@@ -13,7 +13,7 @@
 
 <style scope>
     #map {
-        height: 800px;
+        height: 100vh;
     }
     body {
         margin: 0px;
