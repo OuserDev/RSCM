@@ -14,9 +14,11 @@ body {
 </style>
 
 <script>
+import { mapState,mapMutations } from "vuex";
+
 import axios from "axios";
-import sidoJson from "@/assets/TL_SCCO_CTPRVN.json";
-import sidoJsonUp from "@/assets/TL_SCCO_SIG.json";
+import sidoJson from "@/assets/json/TL_SCCO_CTPRVN.json";
+import sidoJsonUp from "@/assets/json/TL_SCCO_SIG.json";
 
 export default {
     name: "rscmMap",

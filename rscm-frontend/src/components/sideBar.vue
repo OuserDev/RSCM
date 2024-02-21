@@ -7,6 +7,8 @@
   <style scope></style>
   
   <script>
+  import { mapState,mapMutations } from "vuex";
+
   export default {
     name: "sideBar",
     components: {},
