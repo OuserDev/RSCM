@@ -1,5 +1,5 @@
 <template>
-  <div>
+    <div class="col-4 container-fluid border border-secondary mx-0" style="background: #ffffff;">
         <div class="row m-4">
           <img class="col-1 p-1 img-fluid" src="@/assets/svg/warning.svg" />
           <span class="col display-6 text-start px-3 fw-bolder"
@@ -14,7 +14,7 @@
           >
         </div>
         <div class="row border-bottom border-secondary m-4"></div>
-  </div>
+    </div>
 </template>
 
 <style scope></style>

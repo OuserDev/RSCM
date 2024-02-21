@@ -1,5 +1,7 @@
 <template>
-<div id="map"></div>
+  <div class="col px-0">
+    <div id="map"></div>
+  </div>
 </template>
 
 <style scope>
