@@ -1,8 +1,35 @@
 <template>
     <div class="col p-0" style="background: #696969; max-width:70px;">
-        <div class="m-3 mt-4"><img src="@/assets/svg/home3.svg"></div>
+      <div style="background-color: #003456;">
+        <div class="p-3">
+          <img src="@/assets/svg/home3.svg">
+        </div>
+      </div>
+
+      <div>
+        <div class="p-3 mt-1">
+          <img src="@/assets/svg/bar.svg">
+        </div>
+      </div>
+
+      <div>
+        <div class="p-3 mt-1">
+          <img src="@/assets/svg/user.svg">
+        </div>
+      </div>
+
+      <div>
+        <div class="p-3 mt-1">
+          <img src="@/assets/svg/admin.svg">
+        </div>
+      </div>
     </div>
-  </template>
+
+    <button class="col p-0 mb-0 border-0 fw-bold h5" @click="setToggleStatus" style="background: #a19e9e; max-width:40px;">
+      <span v-if="toggleStatus == 0">&gt;&gt;</span>
+      <span v-if="toggleStatus == 1">&lt;&lt;</span>
+    </button>
+</template>
   
   <style scope></style>
   
@@ -19,6 +46,11 @@
     created() {},
     mounted() {},
     unmounted() {},
-    methods: {},
+    computed: {
+    ...mapState(["toggleStatus"]),
+    },
+    methods: {
+      ...mapMutations(['setToggleStatus']),
+    },
   };
   </script>

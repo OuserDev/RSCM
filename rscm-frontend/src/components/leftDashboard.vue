@@ -1,5 +1,5 @@
 <template>
-    <div class="col-4 container-fluid border border-secondary mx-0" style="background: #ffffff;">
+    <div class="col container-fluid border border-secondary mx-0" style="max-width:30%; background: #ffffff;">
 
         <div class="row m-4"> <!-- 현황 박스 -->
           <p class="my-0 px-0 text-start">
@@ -18,8 +18,6 @@
         </div>
 
         <div class="row border-bottom border-secondary m-4"></div>
-
-        <button @click="changeToggle" class="btn btn-dark">&lt;&lt;</button>
     </div>
 </template>
 
@@ -39,7 +37,7 @@ export default {
   mounted() {},
   unmounted() {},
   methods: {
-    ...mapMutations(['changeToggle']),
+    ...mapMutations(['setToggleStatus']),
   },
 };
 </script>
