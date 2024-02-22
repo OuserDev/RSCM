@@ -73,7 +73,10 @@ export default {
       clearPolygonsAndOverlays();
       data.features.forEach((feature, index) => {
         const coordinates = feature.geometry.coordinates;
-        const name = feature.properties.CTP_KOR_NM;
+        // sidoJson과 sidoJsonUp에서 지역명 키 값이 다르므로 적절히 선택
+        const name =
+          feature.properties.SIG_KOR_NM || feature.properties.CTP_KOR_NM;
+          console.log(`Feature #${index}:`, name);
         displayMap(coordinates, name, index);
       });
     }
@@ -162,9 +165,6 @@ export default {
 
       overlay.setMap(map.value);
       overlayMap[index] = overlay; // 오버레이 관리를 위해 객체에 추가
-
-      // 콘솔에 이름과 수정된 중심 좌표(위도, 경도) 출력
-      // console.log(name, position.getLat(), position.getLng());
     }
 
     function centerMap(points) {
