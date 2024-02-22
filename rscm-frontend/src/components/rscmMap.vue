@@ -14,16 +14,19 @@ body {
 </style>
 
 <script>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, reactive } from "vue";
 import sidoJson from "@/assets/json/gson.json";
 import sidoJsonUp from "@/assets/json/TL_SCCO_SIG.json";
 
 export default {
   setup() {
     const map = ref(null);
-    const customOverlay = ref(null); // 현재 활성화된 커스텀 오버레이를 관리
+    const mapState = reactive({
+      currentLevel: 12,
+      previousLevel: null,
+    });
     const polygons = ref([]);
-    const overlays = ref([]);
+    const overlayMap = reactive({}); // 오버레이를 관리할 객체
 
     onMounted(() => {
       loadKakaoMapsAPI().then(() => {
@@ -45,30 +48,37 @@ export default {
       const mapContainer = document.getElementById("map");
       const mapOption = {
         center: new kakao.maps.LatLng(36.6358, 127.4911),
-        level: 12,
+        level: mapState.currentLevel,
       };
 
       map.value = new kakao.maps.Map(mapContainer, mapOption);
-      customOverlay.value = new kakao.maps.CustomOverlay({});
 
       map.value.addListener("zoom_changed", () => {
         const level = map.value.getLevel();
-        loadPolygonData(level <= 10 ? sidoJsonUp : sidoJson);
+        mapState.previousLevel = mapState.currentLevel;
+        mapState.currentLevel = level;
+
+        if (
+          (mapState.previousLevel <= 10 && mapState.currentLevel > 10) ||
+          (mapState.previousLevel > 10 && mapState.currentLevel <= 10)
+        ) {
+          loadPolygonData(mapState.currentLevel <= 10 ? sidoJsonUp : sidoJson);
+        }
       });
 
-      loadPolygonData(sidoJson);
+      loadPolygonData(mapState.currentLevel <= 10 ? sidoJsonUp : sidoJson);
     }
 
     function loadPolygonData(data) {
       clearPolygonsAndOverlays();
-      data.features.forEach((feature) => {
+      data.features.forEach((feature, index) => {
         const coordinates = feature.geometry.coordinates;
         const name = feature.properties.CTP_KOR_NM;
-        displayMap(coordinates, name);
+        displayMap(coordinates, name, index);
       });
     }
 
-    function displayMap(coordinates, name) {
+    function displayMap(coordinates, name, index) {
       const path = coordinates[0].map(
         (coordinate) => new kakao.maps.LatLng(coordinate[1], coordinate[0])
       );
@@ -83,7 +93,7 @@ export default {
       });
 
       polygons.value.push(polygon);
-      overlaySet(name, path);
+      overlaySet(name, path, index);
 
       // 마우스 오버 이벤트
       kakao.maps.event.addListener(polygon, "mouseover", () => {
@@ -93,7 +103,6 @@ export default {
       // 마우스 아웃 이벤트
       kakao.maps.event.addListener(polygon, "mouseout", () => {
         polygon.setOptions({ fillColor: "#fff" });
-        customOverlay.value.setMap(null);
       });
 
       // 클릭 이벤트
@@ -107,31 +116,55 @@ export default {
     }
 
     function clearPolygonsAndOverlays() {
-      // 기존 폴리곤 제거
       polygons.value.forEach((polygon) => polygon.setMap(null));
       polygons.value = [];
-
-      // 기존 오버레이 제거
-      overlays.value.forEach((overlay) => overlay.setMap(null));
-      overlays.value = [];
+      Object.values(overlayMap).forEach((overlay) => overlay.setMap(null));
+      for (const key in overlayMap) {
+        delete overlayMap[key];
+      }
     }
 
-    function overlaySet(name, points) {
-      // 오버레이 중복 생성 방지를 위해 기존 오버레이 제거
-      if (customOverlay.value) {
-        customOverlay.value.setMap(null);
+    function overlaySet(name, points, index) {
+      let position = centerMap(points); // 폴리곤의 중심 좌표 계산
+
+      // 위치를 조정하고 싶은 여러 지역들의 조정 값을 매핑하는 객체
+      const locationAdjustments = {
+        서울: { lat: -0.04, lng: -0.05 },
+        세종: { lat: -0.08, lng: -0.01 },
+        대전: { lat: -0.05, lng: -0.03 },
+        인천: { lat: -0.04, lng: -0.05 },
+        경기: { lat: 0, lng: +0.13 },
+        부산: { lat: -0.06, lng: -0.01 },
+        광주: { lat: -0.06, lng: -0.05 },
+        제주: { lat: -0.06, lng: -0.04 },
+        전남: { lat: -0.05, lng: +0.01 },
+        경남: { lat: 0.02, lng: -0.06 },
+        울산: { lat: -0.06, lng: -0.03 },
+        대구: { lat: -0.07, lng: -0.05 },
+      };
+
+      // 해당 지역의 위치 조정이 필요한 경우, 조정 값을 적용
+      if (locationAdjustments[name]) {
+        const adjustment = locationAdjustments[name];
+        position = new kakao.maps.LatLng(
+          position.getLat() + adjustment.lat,
+          position.getLng() + adjustment.lng
+        );
       }
 
-      const position = centerMap(points);
-      const content = `<div class="area" style="font-weight:bold; font-size:10px;">${name}</div>`;
-      customOverlay.value = new kakao.maps.CustomOverlay({
+      const content = `<div class="area" style="font-weight:bold; color: #003478; font-size:14px;">${name}</div>`;
+      const overlay = new kakao.maps.CustomOverlay({
         position: position,
         content: content,
         xAnchor: 0.3,
         yAnchor: 0.91,
       });
 
-      customOverlay.value.setMap(map.value);
+      overlay.setMap(map.value);
+      overlayMap[index] = overlay; // 오버레이 관리를 위해 객체에 추가
+
+      // 콘솔에 이름과 수정된 중심 좌표(위도, 경도) 출력
+      // console.log(name, position.getLat(), position.getLng());
     }
 
     function centerMap(points) {
