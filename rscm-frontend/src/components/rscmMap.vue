@@ -16,7 +16,7 @@ body {
 <script>
 import { onMounted, ref, reactive } from "vue";
 import sidoJson from "@/assets/json/gson.json";
-import sidoJsonUp from "@/assets/json/TL_SCCO_SIG.json";
+import sidoJsonUp from "@/assets/json/TL_SCCO_SIG_(구단위 백업).json";
 
 export default {
   setup() {
