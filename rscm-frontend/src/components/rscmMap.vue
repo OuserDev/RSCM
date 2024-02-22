@@ -4,181 +4,187 @@
   </div>
 </template>
 
-<style scope>
+<style scoped>
 #map {
   height: 800px;
 }
 body {
-  margin: 0px;
+  margin: 0;
 }
 </style>
 
 <script>
-import axios from "axios";
-import sidoJson from "@/assets/TL_SCCO_CTPRVN.json";
-import sidoJsonUp from "@/assets/TL_SCCO_SIG.json";
+import { onMounted, ref, reactive } from "vue";
+import sidoJson from "@/assets/json/gson.json";
+import sidoJsonUp from "@/assets/json/TL_SCCO_SIG_(구단위 백업).json";
 
 export default {
-    name: "rscmMap",
-    components: {},
-    data() {
-        return {
-            map: null,
-            customOverlay: null, // 초기화를 여기서 하지 않음
-        };
-    },
-    setup() { },
-    created() { },
-    mounted() {
-        if (window.kakao && window.kakao.maps) {
-            this.loadMap({ mapId: "map" });
+  setup() {
+    const map = ref(null);
+    const mapState = reactive({
+      currentLevel: 12,
+      previousLevel: null,
+    });
+    const polygons = ref([]);
+    const overlayMap = reactive({}); // 오버레이를 관리할 객체
+
+    onMounted(() => {
+      loadKakaoMapsAPI().then(() => {
+        initializeMap();
+      });
+    });
+
+    function loadKakaoMapsAPI() {
+      return new Promise((resolve) => {
+        const script = document.createElement("script");
+        script.onload = () => kakao.maps.load(resolve);
+        script.src =
+          "https://dapi.kakao.com/v2/maps/sdk.js?appkey=c1479b041c5feb85f1cc85dc2ed3cf39&autoload=false&libraries=services,clusterer";
+        document.head.appendChild(script);
+      });
+    }
+
+    function initializeMap() {
+      const mapContainer = document.getElementById("map");
+      const mapOption = {
+        center: new kakao.maps.LatLng(36.6358, 127.4911),
+        level: mapState.currentLevel,
+      };
+
+      map.value = new kakao.maps.Map(mapContainer, mapOption);
+
+      map.value.addListener("zoom_changed", () => {
+        const level = map.value.getLevel();
+        mapState.previousLevel = mapState.currentLevel;
+        mapState.currentLevel = level;
+
+        if (
+          (mapState.previousLevel <= 10 && mapState.currentLevel > 10) ||
+          (mapState.previousLevel > 10 && mapState.currentLevel <= 10)
+        ) {
+          loadPolygonData(mapState.currentLevel <= 10 ? sidoJsonUp : sidoJson);
         }
-        else {
-            this.loadScript();
-        }
-    },
-    unmounted() { },
-    methods: {
-        loadScript() {
-            // api 불러오기
-            const script = document.createElement("script");
-            script.src =
-                "https://dapi.kakao.com/v2/maps/sdk.js?appkey=c1479b041c5feb85f1cc85dc2ed3cf39&autoload=false";
-            // 화살표 함수를 사용하여 this.loadMap을 호출하고, 필요한 매개변수를 전달한다.
-            script.onload = () => window.kakao.maps.load(() => this.loadMap({ mapId: "map" }));
-            document.head.appendChild(script);
-        },
-        loadMap(options) {
-            this.customOverlay = new kakao.maps.CustomOverlay({});
-            const container = document.getElementById(options.mapId || "map");
-            const mapOptions = {
-                center: new kakao.maps.LatLng(36.26682, 127.57865),
-                level: 12,
-            };
-            this.map = new kakao.maps.Map(container, mapOptions);
-            this.polygons = []; // 폴리곤 저장 배열
-            this.loadPolygonData(sidoJson); // 초기 폴리곤 데이터 로드
-            kakao.maps.event.addListener(this.map, "zoom_changed", () => {
-                var level = this.map.getLevel();
-                this.clearPolygons(); // 기존 폴리곤 제거
-                if (level > 10) {
-                    this.loadPolygonData(sidoJson); // 기본 데이터 로드
-                }
-                else {
-                    this.loadPolygonData(sidoJsonUp); // 상세 데이터 로드
-                }
-            });
-        },
-        loadPolygonData(data) {
-            data.features.forEach((feature) => {
-                this.getPolyCode(feature);
-            });
-        },
-        clearPolygons() {
-            this.polygons.forEach((polygon) => {
-                polygon.setMap(null); // 지도에서 폴리곤 제거
-            });
-            this.polygons = []; // 폴리곤 배열 초기화
-        },
-        getPolyCode(feature) {
-            // coordinates 배열을 순회하여 모든 좌표를 처리
-            const type = feature.geometry.type;
-            let paths = []; // 여러 path를 저장할 배열
-            if (type === "Polygon") {
-                feature.geometry.coordinates.forEach((polygon) => {
-                    let path = []; // 각 Polygon의 path
-                    polygon.forEach((coord) => {
-                        path.push(new kakao.maps.LatLng(coord[1], coord[0]));
-                    });
-                    paths.push(path); // paths 배열에 현재 polygon의 path를 추가
-                });
-            }
-            // 모든 path에 대해 폴리곤 설정
-            paths.forEach((path) => {
-                this.setPolygon(path, feature.properties);
-            });
-        },
-        setPolygon(path, properties) {
-            const polygon = new kakao.maps.Polygon({
-                path: path,
-                strokeWeight: 2,
-                strokeColor: "#003478",
-                strokeOpacity: 1,
-                fillColor: "#fff",
-                fillOpacity: 0.5,
-            });
-            // 폴리곤의 중심점을 계산
-            const centroidPoint = this.centroid(path);
-            //   this.createLabel(centroidPoint, properties.CTP_KOR_NM);
-            //   // 폴리곤 중심에 CustomOverlay를 생성하여 지역 이름 표시
-            //   const content = document.createElement("p");
-            //   content.className = "overlaybox";
-            //   content.innerText = properties.CTP_KOR_NM;
-            //   const overlay = new kakao.maps.CustomOverlay({
-            //     map: this.map,
-            //     position: centroidPoint,
-            //     content: content,
-            //     yAnchor: 1,
-            //   });
-            //   // 중심점과 지역 이름을 콘솔에 로깅
-            //   console.log(
-            //     `지역: ${
-            //       properties.CTP_KOR_NM
-            //     }, 중심점: ${centroidPoint.getLat()}, ${centroidPoint.getLng()}`
-            //   );
-            kakao.maps.event.addListener(polygon, "mouseover", () => {
-                polygon.setOptions({ fillColor: "#09f" });
-                this.customOverlay.setContent(`<div class='overlaybox'>${properties.CTP_KOR_NM}</div>`);
-                this.customOverlay.setMap(this.map);
-            });
-            kakao.maps.event.addListener(polygon, "mouseout", () => {
-                polygon.setOptions({ fillColor: "#fff" });
-                this.customOverlay.setMap(null);
-            });
-            polygon.setMap(this.map);
-            this.polygons.push(polygon); // 생성된 폴리곤 저장
-        },
-        centroid(points) {
-            let x = 0, y = 0, area = 0, factor = 0;
-            for (let i = 0, j = points.length - 1; i < points.length; j = i, i++) {
-                let xi = points[i].getLng(), yi = points[i].getLat();
-                let xj = points[j].getLng(), yj = points[j].getLat();
-                factor = xi * yj - xj * yi;
-                x += (xi + xj) * factor;
-                y += (yi + yj) * factor;
-                area += factor * 3;
-            }
-            // If area is 0, which shouldn't happen for polygons, return early to avoid division by zero
-            if (area === 0) {
-                return new kakao.maps.LatLng(0, 0); // Or some other default value
-            }
-            area = Math.abs(area);
-            x /= area;
-            y /= area;
-            // Adjust the signs of x and y as they should be negative if area is negative
-            if (area < 0) {
-                x = -x;
-                y = -y;
-            }
-            return new kakao.maps.LatLng(y, x);
-        },
-        // createLabel(centroid, text) {
-        //   var content = document.createElement("div");
-        //   content.className = "label"; // CSS 클래스 설정
-        //   content.innerHTML = text;
-        //   content.style.position = "relative";
-        //   content.style.left = "-50%";
-        //   content.style.top = "-50%";
-        //   content.style.whiteSpace = "nowrap";
-        //   content.style.textAlign = "center";
-        //   var customOverlay = new kakao.maps.CustomOverlay({
-        //     map: this.map,
-        //     position: centroid,
-        //     content: content,
-        //     yAnchor: 1,
-        //   });
-        //   return customOverlay;
-        // },
-    },
+      });
+
+      loadPolygonData(mapState.currentLevel <= 10 ? sidoJsonUp : sidoJson);
+    }
+
+    function loadPolygonData(data) {
+      clearPolygonsAndOverlays();
+      data.features.forEach((feature, index) => {
+        const coordinates = feature.geometry.coordinates;
+        // sidoJson과 sidoJsonUp에서 지역명 키 값이 다르므로 적절히 선택
+        const name =
+          feature.properties.SIG_KOR_NM || feature.properties.CTP_KOR_NM;
+          console.log(`Feature #${index}:`, name);
+        displayMap(coordinates, name, index);
+      });
+    }
+
+    function displayMap(coordinates, name, index) {
+      const path = coordinates[0].map(
+        (coordinate) => new kakao.maps.LatLng(coordinate[1], coordinate[0])
+      );
+      const polygon = new kakao.maps.Polygon({
+        map: map.value,
+        path: path,
+        strokeWeight: 2,
+        strokeColor: "#004c80",
+        strokeOpacity: 0.8,
+        fillColor: "#fff",
+        fillOpacity: 0.7,
+      });
+
+      polygons.value.push(polygon);
+      overlaySet(name, path, index);
+
+      // 마우스 오버 이벤트
+      kakao.maps.event.addListener(polygon, "mouseover", () => {
+        polygon.setOptions({ fillColor: "#09f" });
+      });
+
+      // 마우스 아웃 이벤트
+      kakao.maps.event.addListener(polygon, "mouseout", () => {
+        polygon.setOptions({ fillColor: "#fff" });
+      });
+
+      // 클릭 이벤트
+      kakao.maps.event.addListener(polygon, "click", () => {
+        const level = map.value.getLevel() - 2;
+        map.value.setLevel(level, {
+          anchor: centerMap(path),
+          animate: { duration: 350 },
+        });
+      });
+    }
+
+    function clearPolygonsAndOverlays() {
+      polygons.value.forEach((polygon) => polygon.setMap(null));
+      polygons.value = [];
+      Object.values(overlayMap).forEach((overlay) => overlay.setMap(null));
+      for (const key in overlayMap) {
+        delete overlayMap[key];
+      }
+    }
+
+    function overlaySet(name, points, index) {
+      let position = centerMap(points); // 폴리곤의 중심 좌표 계산
+
+      // 위치를 조정하고 싶은 여러 지역들의 조정 값을 매핑하는 객체
+      const locationAdjustments = {
+        서울: { lat: -0.04, lng: -0.05 },
+        세종: { lat: -0.08, lng: -0.01 },
+        대전: { lat: -0.05, lng: -0.03 },
+        인천: { lat: -0.04, lng: -0.05 },
+        경기: { lat: 0, lng: +0.13 },
+        부산: { lat: -0.06, lng: -0.01 },
+        광주: { lat: -0.06, lng: -0.05 },
+        제주: { lat: -0.06, lng: -0.04 },
+        전남: { lat: -0.05, lng: +0.01 },
+        경남: { lat: 0.02, lng: -0.06 },
+        울산: { lat: -0.06, lng: -0.03 },
+        대구: { lat: -0.07, lng: -0.05 },
+      };
+
+      // 해당 지역의 위치 조정이 필요한 경우, 조정 값을 적용
+      if (locationAdjustments[name]) {
+        const adjustment = locationAdjustments[name];
+        position = new kakao.maps.LatLng(
+          position.getLat() + adjustment.lat,
+          position.getLng() + adjustment.lng
+        );
+      }
+
+      const content = `<div class="area" style="font-weight:bold; color: #003478; font-size:14px;">${name}</div>`;
+      const overlay = new kakao.maps.CustomOverlay({
+        position: position,
+        content: content,
+        xAnchor: 0.3,
+        yAnchor: 0.91,
+      });
+
+      overlay.setMap(map.value);
+      overlayMap[index] = overlay; // 오버레이 관리를 위해 객체에 추가
+    }
+
+    function centerMap(points) {
+      let area = 0;
+      let x = 0;
+      let y = 0;
+
+      for (let i = 0, len = points.length, j = len - 1; i < len; j = i++) {
+        const p1 = points[i];
+        const p2 = points[j];
+        const f = p1.getLat() * p2.getLng() - p2.getLat() * p1.getLng();
+        x += (p1.getLng() + p2.getLng()) * f;
+        y += (p1.getLat() + p2.getLat()) * f;
+        area += f * 3;
+      }
+
+      return new kakao.maps.LatLng(y / area, x / area);
+    }
+
+    return {};
+  },
 };
 </script>
