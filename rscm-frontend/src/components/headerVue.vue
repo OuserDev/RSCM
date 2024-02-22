@@ -8,12 +8,12 @@
 
         <div class="col-2">
             <div class="row align-items-center h-100">
-                <div class="col border text-start py-2 fw-light" style="max-width:80%;">
+                <div class="col border text-start py-3 fw-light" style="max-width:80%;">
                     <span><img class="me-3" src="@/assets/svg/search.svg" style="max-width:10%;"></span>
                     <span class="ml-3 h6" style="color: #AEA7A7;">검색어 (ex. 대전, 종로구...)</span>
                 </div>
-                <div class="col btn btn-primary border-0 mx-2 py-2" style="max-width:20%; background-color: #003478;" >
-                    <span class="h6">검색</span>
+                <div class="col btn btn-primary border-0 ms-2 py-3" style="max-width:20%; background-color: #003478;" >
+                    <span class="h5">검색</span>
                 </div>
             </div>
         </div>

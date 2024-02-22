@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid mb-2 px-0">
+    <div class="container-fluid px-0">
         <headerVue/>
     </div>
     <div class="container-fluid">
