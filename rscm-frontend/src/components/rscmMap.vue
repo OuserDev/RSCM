@@ -6,10 +6,7 @@
 
 <style scoped>
 #map {
-  height: 800px;
-}
-body {
-  margin: 0;
+  max-height: 88vh;
 }
 </style>
 
@@ -47,7 +44,7 @@ export default {
     function initializeMap() {
       const mapContainer = document.getElementById("map");
       const mapOption = {
-        center: new kakao.maps.LatLng(36.6358, 127.4911),
+        center: new kakao.maps.LatLng(36.370998, 130.037870),
         level: mapState.currentLevel,
       };
 

@@ -24,11 +24,6 @@
         </div>
       </div>
     </div>
-
-    <button class="col p-0 mb-0 border-0 fw-bold h5" @click="setToggleStatus" style="background: #a19e9e; max-width:2%;">
-      <span v-if="toggleStatus == 0">&gt;&gt;</span>
-      <span v-if="toggleStatus == 1">&lt;&lt;</span>
-    </button>
 </template>
   
   <style scope></style>
@@ -47,10 +42,10 @@
     mounted() {},
     unmounted() {},
     computed: {
-    ...mapState(["toggleStatus"]),
+    ...mapState(["leftToggleStatus"]),
     },
     methods: {
-      ...mapMutations(['setToggleStatus']),
+      ...mapMutations(['setLeftToggleStatus']),
     },
   };
   </script>
