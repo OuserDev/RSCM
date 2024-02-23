@@ -12,7 +12,7 @@
           <div class="row my-0 px-0 tight-spacing">
             <div class="col-7 ps-1 pe-0">
               <img class="pb-4 img-fluid" src="@/assets/svg/siren.svg">
-              <span class="h2 ps-3 fw-bold text-dark">하드코딩 성건시</span>
+              <span class="h2 ps-3 fw-bold text-dark">경기도 성건시</span>
             </div>
             <div class="text-end col px-0 me-1">
               <p class="pe-3 m-0 h4 fw-bold text-dark">범죄 발생 현황</p>

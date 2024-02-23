@@ -17,10 +17,30 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-6"></div>
+
+        <div class="col ms-5" style="max-width:15%">
+            <div class="row align-items-center justify-content-center h-100">
+                <div class="col px-0">
+                    <span class="h5 fw-bold text-secondary tight-spacing">도움말</span>
+                    <span><img class="ms-1 pb-2" src="@/assets/svg/triangle.svg" style="max-width:16%;"></span>
+                </div>
+                <div class="col px-0">
+                    <span class="h5 fw-bold text-secondary tight-spacing">내 정보</span>
+                    <span><img class="ms-3 pb-2" src="@/assets/svg/profile-default.svg" style="max-width:30%;"></span>
+                </div>
+            </div>
+        </div>
+
     </div>
 </template>
   
-<style scope></style>
+<style scope>
+.tight-spacing {
+  letter-spacing: -1px;
+}
+</style>
   
 <script>
 import { mapState,mapMutations } from "vuex";
