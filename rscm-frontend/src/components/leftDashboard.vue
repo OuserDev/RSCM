@@ -1,7 +1,7 @@
 <template>
     <div class="col container-fluid border border-secondary mx-0 px-0" style="max-width:30%; background: #ffffff;" v-if="leftToggleStatus == 1">
 
-      <div class="container-fluid p-3 border-bottom border-secondary" style="min-height: 50%;">
+      <div class="container-fluid p-3 border-bottom border-secondary" style="min-height:50%;">
         <div class="row m-4"> <!-- 현황 박스 -->
           <p class="my-0 px-0 text-start tight-spacing">
             <img class="mb-3" src="@/assets/svg/warning.svg">
@@ -24,11 +24,6 @@
       </div>
 
     </div>
-
-    <button class="col p-0 mb-0 border-0 fw-bold h5" @click="setLeftToggleStatus" style="background: #a19e9e; max-width:2%;">
-      <span v-if="leftToggleStatus == 0">&gt;&gt;</span>
-      <span v-if="leftToggleStatus == 1">&lt;&lt;</span>
-    </button>
 </template>
 
 <style scope>

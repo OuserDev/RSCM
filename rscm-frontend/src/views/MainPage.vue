@@ -6,6 +6,10 @@
       <div class="row">
         <sideBar/>
         <leftDashboard/>
+        <button class="col p-0 mb-0 border-0 fw-bold h5" @click="setLeftToggleStatus" style="background: #a19e9e; max-width:2%;">
+            <span v-if="leftToggleStatus == 0">&gt;&gt;</span>
+            <span v-if="leftToggleStatus == 1">&lt;&lt;</span>
+        </button>
         <rscmMap/>
         <rightDashboard/>
       </div>
@@ -28,7 +32,7 @@ import { mapState,mapMutations,mapActions } from "vuex";
 
 export default {
     name: "MainPage",
-    components: { sideBar, leftDashboard, rscmMap, headerVue, rightDashboard },
+    components: { sideBar, rscmMap, headerVue, leftDashboard, rightDashboard },
     data() {
         return {
         };
@@ -42,6 +46,7 @@ export default {
         ...mapState(["leftToggleStatus", "rightToggleStatus"]),
     },
     methods: {
+        ...mapMutations(['setLeftToggleStatus']),
     },
 };
 </script>
