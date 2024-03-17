@@ -6,10 +6,7 @@
 
 <style scoped>
 #map {
-  height: 800px;
-}
-body {
-  margin: 0;
+  max-height: 88vh;
 }
 </style>
 
@@ -39,7 +36,7 @@ export default {
         const script = document.createElement("script");
         script.onload = () => kakao.maps.load(resolve);
         script.src =
-          "https://dapi.kakao.com/v2/maps/sdk.js?appkey=c1479b041c5feb85f1cc85dc2ed3cf39&autoload=false&libraries=services,clusterer";
+          "https://dapi.kakao.com/v2/maps/sdk.js?appkey=c1479b041c5feb85f1cc85dc2ed3cf39&autoload=false&libraries=services";
         document.head.appendChild(script);
       });
     }
@@ -47,7 +44,7 @@ export default {
     function initializeMap() {
       const mapContainer = document.getElementById("map");
       const mapOption = {
-        center: new kakao.maps.LatLng(36.6358, 127.4911),
+        center: new kakao.maps.LatLng(36.370998, 129.237870),
         level: mapState.currentLevel,
       };
 

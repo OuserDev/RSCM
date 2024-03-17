@@ -1,56 +1,75 @@
 <template>
-    <div class="col p-0" style="background: #696969; max-width:3%;">
-      <div style="background-color: #003478;">
+    <div class="col p-0 sideBar" style="background: #696969; max-width:3%;">
+      <div :class="['menu-item', menuItemClass(1)]" @click="setSideBarStatus(1)">
         <div class="p-3">
-          <img class="img-fluid" src="@/assets/svg/home3.svg">
+          <router-link to="/">
+            <img class="img-fluid" src="@/assets/svg/home3.svg">
+          </router-link>
         </div>
       </div>
 
-      <div>
-        <div class="p-3 mt-1">
-          <img class="img-fluid" src="@/assets/svg/bar.svg">
+      <div :class="['menu-item', menuItemClass(2)]" @click="setSideBarStatus(2)">
+        <div class="p-3">
+          <router-link to="/about">
+            <img class="img-fluid" src="@/assets/svg/bar.svg">
+          </router-link>
         </div>
       </div>
 
-      <div>
-        <div class="p-3 mt-1">
+      <div :class="['menu-item', menuItemClass(3)]" @click="setSideBarStatus(3)">
+        <div class="p-3">
           <img class="img-fluid" src="@/assets/svg/user.svg">
         </div>
       </div>
 
-      <div>
-        <div class="p-3 mt-1">
+      <div :class="['menu-item', menuItemClass(4)]" @click="setSideBarStatus(4)">
+        <div class="p-3">
           <img class="img-fluid" src="@/assets/svg/admin.svg">
         </div>
       </div>
     </div>
-
-    <button class="col p-0 mb-0 border-0 fw-bold h5" @click="setToggleStatus" style="background: #a19e9e; max-width:2%;">
-      <span v-if="toggleStatus == 0">&gt;&gt;</span>
-      <span v-if="toggleStatus == 1">&lt;&lt;</span>
-    </button>
 </template>
   
-  <style scope></style>
+<style scoped>
+  .sideBar {
+    height: 100vh;
+  }
+  .menu-item:hover {
+    background-color: #1d62bd;
+  }
+  .bg-color-1, .bg-color-2, .bg-color-3, .bg-color-4 {
+    background-color: #003478; /* 모든 상태에 대해 동일한 색상 적용 */
+  }
+</style>
   
-  <script>
-  import { mapState,mapMutations } from "vuex";
+<script>
+import { mapState,mapMutations } from "vuex";
 
-  export default {
-    name: "sideBar",
-    components: {},
-    data() {
-      return {};
-    },
-    setup() {},
-    created() {},
-    mounted() {},
-    unmounted() {},
-    computed: {
-    ...mapState(["toggleStatus"]),
-    },
-    methods: {
-      ...mapMutations(['setToggleStatus']),
-    },
-  };
-  </script>
+export default {
+  name: "sideBar",
+  components: {},
+  data() {
+    return {};
+  },
+  setup() {},
+  created() {},
+  mounted() {},
+  unmounted() {},
+  computed: {
+  ...mapState(["leftToggleStatus", "sideBarStatus"]),
+
+  menuItemClass() {
+      return (menuItemNumber) => {
+        if (this.sideBarStatus === menuItemNumber) {
+          return `bg-color-${this.sideBarStatus}`;
+        } else {
+          return '';
+        }
+      }
+    }
+  },
+  methods: {
+    ...mapMutations(['setLeftToggleStatus', 'setSideBarStatus']),
+  },
+};
+</script>

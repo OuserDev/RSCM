@@ -1,25 +1,26 @@
-import { createStore } from 'vuex'
+import { createStore } from "vuex";
 import axios from "axios";
 
 export default createStore({
   state() {
     return {
-			toggleStatus: 0,
-		}
+      leftToggleStatus: 0,
+      rightToggleStatus: 0,
+      sideBarStatus: 1,
+    };
   },
-  getters: {
-  },
+  getters: {},
   mutations: {
-    setToggleStatus(state) {
-      if (state.toggleStatus === 1) {
-        state.toggleStatus = 0
-      } else if (state.toggleStatus === 0) {
-        state.toggleStatus = 1
-    }
+    setLeftToggleStatus(state) {
+      state.leftToggleStatus ^= 1;
+    },
+    setRightToggleStatus(state) {
+      state.rightToggleStatus ^= 1;
+    },
+    setSideBarStatus(state, status) {
+      state.sideBarStatus = status;
+    },
   },
-  },
-  actions: {
-  },
-  modules: {
-  }
-})
+  actions: {},
+  modules: {},
+});
