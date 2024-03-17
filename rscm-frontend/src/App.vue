@@ -1,5 +1,13 @@
 <template>
-  <router-view/>
+    <div class="container-fluid px-0">
+        <headerVue/>
+    </div>
+    <div class="container-fluid">
+      <div class="row">
+        <sideBar/>
+        <router-view/>
+      </div>
+    </div>
 </template>
 
 <style>
@@ -27,9 +35,10 @@ nav a.router-link-exact-active {
 </style>
 
 <script>
+import headerVue from "@/components/headerVue.vue";
+import sideBar from "@/components/sideBar.vue";
 export default {
   name: "App",
-  components: {
-  },
+  components: { sideBar, headerVue },
 };
 </script>

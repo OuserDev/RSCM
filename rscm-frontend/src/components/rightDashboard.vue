@@ -1,10 +1,4 @@
 <template>
-
-    <button class="col p-0 mb-0 border-0 fw-bold h5" @click="setRightToggleStatus" style="background: #b7b4b4; max-width:2%;">
-      <span v-if="rightToggleStatus == 0">&lt;&lt;</span>
-      <span v-if="rightToggleStatus == 1">&gt;&gt;</span>
-    </button>
-
     <div class="col container-fluid border border-secondary mx-0 px-0" style="max-width:25%; background: #ffffff;" v-if="rightToggleStatus == 1">
 
       <div class="container-fluid p-3" style="min-height: 50%;">  <!-- 특정지역 현황 박스 -->
