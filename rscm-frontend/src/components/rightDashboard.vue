@@ -20,7 +20,7 @@
     </div>
 </template>
 
-<style scope>
+<style scoped>
 .tight-spacing {
   letter-spacing: -1px;
 }

@@ -25,7 +25,7 @@
         </XyzTransition>
 </template>
 
-<style scope>
+<style>
     #map {
         height: 100vh;
     }

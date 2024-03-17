@@ -1,24 +1,28 @@
 <template>
-    <div class="col p-0" style="background: #696969; max-width:3%;">
-      <div :class="['menu-item', menuItemClass(1)]">
+    <div class="col p-0 sideBar" style="background: #696969; max-width:3%;">
+      <div :class="['menu-item', menuItemClass(1)]" @click="setSideBarStatus(1)">
         <div class="p-3">
-          <img class="img-fluid" src="@/assets/svg/home3.svg">
+          <router-link to="/">
+            <img class="img-fluid" src="@/assets/svg/home3.svg">
+          </router-link>
         </div>
       </div>
 
-      <div :class="['menu-item', menuItemClass(2)]">
+      <div :class="['menu-item', menuItemClass(2)]" @click="setSideBarStatus(2)">
         <div class="p-3">
-          <img class="img-fluid" src="@/assets/svg/bar.svg">
+          <router-link to="/about">
+            <img class="img-fluid" src="@/assets/svg/bar.svg">
+          </router-link>
         </div>
       </div>
 
-      <div :class="['menu-item', menuItemClass(3)]">
+      <div :class="['menu-item', menuItemClass(3)]" @click="setSideBarStatus(3)">
         <div class="p-3">
           <img class="img-fluid" src="@/assets/svg/user.svg">
         </div>
       </div>
 
-      <div :class="['menu-item', menuItemClass(4)]">
+      <div :class="['menu-item', menuItemClass(4)]" @click="setSideBarStatus(4)">
         <div class="p-3">
           <img class="img-fluid" src="@/assets/svg/admin.svg">
         </div>
@@ -26,7 +30,10 @@
     </div>
 </template>
   
-<style scope>
+<style scoped>
+  .sideBar {
+    height: 100vh;
+  }
   .menu-item:hover {
     background-color: #1d62bd;
   }
@@ -62,7 +69,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['setLeftToggleStatus']),
+    ...mapMutations(['setLeftToggleStatus', 'setSideBarStatus']),
   },
 };
 </script>

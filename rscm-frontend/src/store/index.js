@@ -17,6 +17,9 @@ export default createStore({
     setRightToggleStatus(state) {
       state.rightToggleStatus ^= 1;
     },
+    setSideBarStatus(state, status) {
+      state.sideBarStatus = status;
+    },
   },
   actions: {},
   modules: {},
