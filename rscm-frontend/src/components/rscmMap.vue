@@ -6,7 +6,7 @@
 
 <style scoped>
 #map {
-  max-height: 88vh;
+  max-height: 100vh;
 }
 </style>
 

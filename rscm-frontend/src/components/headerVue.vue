@@ -6,9 +6,9 @@
             </div>
         </div>
 
-        <div class="col-2">
+        <div class="col-3">
             <div class="row align-items-center h-100">
-                <div class="col border text-start py-3 fw-light" style="max-width:80%;">
+                <div class="col border text-start py-3 fw-light" style="max-width:100%;">
                     <span><img class="me-3" src="@/assets/svg/search.svg" style="max-width:10%;"></span>
                     <span class="ml-3 h6" style="color: #AEA7A7;">검색어 (ex. 대전, 종로구...)</span>
                 </div>

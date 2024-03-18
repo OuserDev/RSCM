@@ -28,7 +28,7 @@
 <style>
     #map {
         height: 100vh;
-    }
+    }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
 </style>
 
 <script>
@@ -40,7 +40,7 @@ import { mapState,mapMutations,mapActions } from "vuex";
 export default {
     name: "MainPage",
     components: { rscmMap, leftDashboard, rightDashboard },
-    data() {
+    data() {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
         return {
         };
     },

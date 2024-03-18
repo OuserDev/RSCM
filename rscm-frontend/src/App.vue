@@ -10,6 +10,7 @@
     </div>
 </template>
 
+
 <style>
 #app {
   font-family: "Gothic A1", sans-serif;
@@ -33,6 +34,7 @@ nav a.router-link-exact-active {
   color: #42b983;
 }
 </style>
+
 
 <script>
 import headerVue from "@/components/headerVue.vue";
