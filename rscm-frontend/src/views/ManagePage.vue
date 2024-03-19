@@ -3,8 +3,10 @@
     <!-- 상단바 -->
     <manageBar/>
 
-    <div class="mx-auto row ">
-      gdasdfasdfs
+    <div class="mx-auto row">
+      <div class="col">
+        <unProcess/>
+      </div>
     </div>
   </div>
 
@@ -17,12 +19,13 @@
 </style>
 
 <script>
-import manageBar from "@/components/manageBar.vue";
+import manageBar from "@/components/managepage/manageBar.vue";
+import unProcess from "@/components/managepage/unProcess.vue";
 import { mapState,mapMutations } from "vuex";
 
 export default {
   name: "ManagePage",
-  components: { manageBar },
+  components: { manageBar, unProcess },
   data() {
     return {};
   },
