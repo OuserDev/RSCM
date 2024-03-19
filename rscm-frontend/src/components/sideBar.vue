@@ -1,5 +1,5 @@
 <template>
-    <div class="col p-0 sideBar" style="background: #696969; max-width: 3%">
+    <div class="col p-0 sideBar" style="background: #696969; max-width: 5%">
       <router-link to="/">
         <div :class="['menu-item', menuItemClass(1)]" @click="setSideBarStatus(1)">
           <div class="p-3">

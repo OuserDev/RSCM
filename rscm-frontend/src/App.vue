@@ -1,9 +1,7 @@
 <template>
-    <div class="container-fluid" style="max-height: 10%;">
+    <div class="container-fluid p-0 mx-auto">
         <headerVue/>
-    </div>
-    <div class="container-fluid">
-      <div class="row">
+      <div class="row mx-auto">
         <sideBar/>
         <router-view/>
       </div>

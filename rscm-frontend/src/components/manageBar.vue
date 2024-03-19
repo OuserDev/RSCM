@@ -1,8 +1,8 @@
 <template>
       <!-- 상단바 -->
-      <div class="row text-tight" style="background-color:#696969; height: auto;">
+      <div class="mx-auto mh-auto row text-tight mw-100" style="background-color:#696969;">
         
-        <div class="col-2 pe-1 ps-2">
+        <div class="col-2 pe-1 ps-0">
           <div :class="['mt-3 pt-2 pb-1 px-3 text-start custom-border menu-item', menuItemClass(1)]" @click="setManageBarStatus(1)">
             <span class="h5">실시간 수집 데이터 관리</span>
           </div>

@@ -1,12 +1,17 @@
 <template>
-  <div class="col about">
+  <div class="col p-0 bck">
     <!-- 상단바 -->
     <manageBar/>
+
+    <div class="mx-auto row ">
+      gdasdfasdfs
+    </div>
   </div>
+
 </template>
 
 <style scoped>
-  .about {
+  .bck {
     background-color: #d9d9d9;
   }
 </style>

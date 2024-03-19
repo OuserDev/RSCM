@@ -16,9 +16,9 @@
             </div>
         </div>
 
-        <div class="col-6"></div>
+        <div class="col-6 p-0"></div>
 
-        <div class="col me-4">
+        <div class="col p-0 me-5">
             <div class="row align-items-center justify-content-center h-100">
                 <div class="col px-2">
                     <span class="h5 fw-bold text-secondary tight-spacing">도움말</span>
