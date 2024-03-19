@@ -1,14 +1,13 @@
 <template>
-    <div class="container-fluid px-0">
+    <div class="container-fluid p-0 mx-auto">
         <headerVue/>
-    </div>
-    <div class="container-fluid">
-      <div class="row">
+      <div class="row mx-auto">
         <sideBar/>
         <router-view/>
       </div>
     </div>
 </template>
+
 
 <style>
 #app {
@@ -33,6 +32,7 @@ nav a.router-link-exact-active {
   color: #42b983;
 }
 </style>
+
 
 <script>
 import headerVue from "@/components/headerVue.vue";

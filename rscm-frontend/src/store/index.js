@@ -7,6 +7,7 @@ export default createStore({
       leftToggleStatus: 0,
       rightToggleStatus: 0,
       sideBarStatus: 1,
+      manageBarStatus: 1,
     };
   },
   getters: {},
@@ -19,6 +20,9 @@ export default createStore({
     },
     setSideBarStatus(state, status) {
       state.sideBarStatus = status;
+    },
+    setManageBarStatus(state, status) {
+      state.manageBarStatus = status;
     },
   },
   actions: {},

@@ -28,19 +28,19 @@
 <style>
     #map {
         height: 100vh;
-    }
+    }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
 </style>
 
 <script>
-import leftDashboard from "@/components/leftDashboard.vue";
-import rightDashboard from "@/components/rightDashboard.vue";
-import rscmMap from "@/components/rscmMap.vue";
+import leftDashboard from "@/components/mainpage/leftDashboard.vue";
+import rightDashboard from "@/components/mainpage/rightDashboard.vue";
+import rscmMap from "@/components/mainpage/rscmMap.vue";
 import { mapState,mapMutations,mapActions } from "vuex";
 
 export default {
     name: "MainPage",
     components: { rscmMap, leftDashboard, rightDashboard },
-    data() {
+    data() {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
         return {
         };
     },
