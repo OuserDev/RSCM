@@ -1,5 +1,5 @@
 <template>
-    <div class="col p-0 sideBar" style="background: #696969; max-width:3%;">
+    <div class="col p-0 sideBar" style="background: #696969; max-width: 3%">
       <router-link to="/">
         <div :class="['menu-item', menuItemClass(1)]" @click="setSideBarStatus(1)">
           <div class="p-3">
@@ -8,23 +8,23 @@
         </div>
       </router-link>
 
-      <router-link to="/about">
+      <router-link to="/manage">
         <div :class="['menu-item', menuItemClass(2)]" @click="setSideBarStatus(2)">
           <div class="p-3">
-              <img class="img-fluid" src="@/assets/svg/bar.svg">
+              <img class="img-fluid" src="@/assets/svg/admin.svg">
           </div>
         </div>
       </router-link>
 
-      <div :class="['menu-item', menuItemClass(3)]" @click="setSideBarStatus(3)">
+      <div :class="['menu-item', menuItemClass(3)]">
         <div class="p-3">
           <img class="img-fluid" src="@/assets/svg/user.svg">
         </div>
       </div>
 
-      <div :class="['menu-item', menuItemClass(4)]" @click="setSideBarStatus(4)">
+      <div :class="['menu-item', menuItemClass(4)]">
         <div class="p-3">
-          <img class="img-fluid" src="@/assets/svg/admin.svg">
+          <img class="img-fluid" src="@/assets/svg/bar.svg">
         </div>
       </div>
     </div>
@@ -32,7 +32,7 @@
   
 <style scoped>
   .sideBar {
-    height: 100vh;
+    height: 87vh;
   }
   .menu-item:hover {
     background-color: #1d62bd;

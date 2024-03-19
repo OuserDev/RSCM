@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid px-0">
+    <div class="container-fluid" style="max-height: 10%;">
         <headerVue/>
     </div>
     <div class="container-fluid">
