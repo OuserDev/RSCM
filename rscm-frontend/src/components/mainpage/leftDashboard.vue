@@ -5,7 +5,7 @@
         <div class="row m-4"> <!-- 현황 박스 -->
           <p class="my-0 px-0 text-start tight-spacing">
             <img class="mb-3" src="@/assets/svg/warning.svg">
-            <span class="h2 px-3 fw-bold text-dark">실시간 범죄 발생 현황</span>
+            <span class="h4 px-3 fw-bold text-dark">실시간 범죄 발생 현황</span>
             <span class="h6 fw-bold" style="color: #b1afaf;">(최근 7일 이내 기준)</span>
           </p>
         </div>
@@ -16,7 +16,7 @@
         <div class="row m-4"> <!-- 통계 박스 -->
           <p class="my-0 px-0 text-start tight-spacing">
             <img class="mb-3" src="@/assets/svg/pie-chart.svg">
-            <span class="h2 px-3 fw-bold text-dark">최근 범죄 동향 통계</span>
+            <span class="h4 px-3 fw-bold text-dark">최근 범죄 동향 통계</span>
             <span class="h6 fw-bold" style="color: #b1afaf;">(최근 7일 이내 기준)</span>
           </p>
         </div>
