@@ -3,17 +3,18 @@
     <!-- 상단바 -->
     <manageBar/>
 
-    <div class="mx-auto row h-100">
+    <div class="mx-auto row h-100" v-if="manageBarStatus === 1">
       <unProcess/>
       <div class="col mt-3 px-0 mh-100 h5 fw-bold boxCs d-flex justify-content-center align-items-center" style="height: 90%; background: #a19e9e; max-width:2%;">
-            <span>&gt;&gt;</span>
+            <span>▶</span>
       </div>
       <selectData/>
       <div class="col mt-3 px-0 mh-100 h5 fw-bold boxCs d-flex justify-content-center align-items-center" style="height: 90%; background: #a19e9e; max-width:2%;">
-            <span>&gt;&gt;</span>
+            <span>▶</span>
       </div>
       <checkedData/>
     </div>
+
   </div>
 
 </template>

@@ -41,17 +41,17 @@
 
         <div class="row border-bottom m-4 border-secondary"></div>
 
-        <div class="row tight-spacing3 mx-4 my-1" v-for="index in 7" :key="index">
+        <div class="row tight-spacing3 mx-4 my-1" v-for="index in 6" :key="index">
           <span class="fw-light text-start h6 textCs">수집된 데이터 01 / 24-01-28 / 12:34:56</span>
         </div>
-        <div class="row tight-spacing3 mx-4 selectCs d-flex align-items-center p-1">
+        <div class="row tight-spacing3 mx-4 selectCs d-flex align-items-center py-1">
           <span class="text-white fw-bold text-start h6 textCs d-flex align-items-center m-0">수집된 데이터 02 / 24-01-28 / 12:34:56</span>
         </div>
-        <div class="row tight-spacing3 mx-4 my-1" v-for="index in 8" :key="index">
+        <div class="row tight-spacing3 mx-4 my-1" v-for="index in 6" :key="index">
           <span class="fw-light text-start h6 textCs">수집된 데이터 01 / 24-01-28 / 12:34:56</span>
         </div>
 
-        <div class="row tight-spacing2 mx-4 mt-4">
+        <div class="row tight-spacing2 mx-4 mt-2">
           <div class="col-7 p-0 btn boxCs2 py-3">
             <span class="fw-bold white-text h5">일괄 선택</span>
             <img class="ms-3 mb-1" src="@/assets/svg/check.svg" style="max-width:5%;">

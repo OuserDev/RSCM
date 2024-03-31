@@ -18,8 +18,35 @@
         </div>
 
         <div class="row ms-1 " style="max-width: 93%;">
-          <p class="m-3 mb-0 boxCs3 p-2 text-start tight-spacing3 white-text h6">
+          <p class="m-3 mb-2 boxCs3 p-2 text-start tight-spacing3 white-text">
 ://19b4a6d6-f894-4563-a86c-2d6760ce7a2d.mock.pstmn.io/auth/register`, userData)
+      .then(response => {
+        context.dispatch('get게시물목록');
+        context.commit('setViewStatus');
+      })
+      .catch(error => {
+        console.error('글작성 오류',error);
+        throw error;://19b4a6d6-f894-4563-a86c-2d6760ce7a2d.mock.pstmn.io/auth/register`, userData)
+      .then(response => {
+        context.dispatch('get게시물목록');
+        context.commit('setViewStatus');
+      })
+      .catch(error => {
+        console.error('글작성 오류',error);
+        throw error;
+      });://19b4a6d6-f894-4563-a86c-2d6760ce7a2d.mock.pstmn.io/auth/register`, userData)
+      .then(response => {
+        context.dispatch('get게시물목록');
+        context.commit('setViewStatus');
+      })
+      .catch(error => {
+        console.error('글작성 오류',error);
+        throw error;
+      });://19b4a6d6-f894-4563-a86c-2d
+      .catch(error => {
+        console.error('글작성 오류',error);
+        throw error;
+      });://19b4a6d6-f894-4563-a86c-2d6760ce7a2d.mock.pstmn.io/auth/register`, userData)
       .then(response => {
         context.dispatch('get게시물목록');
         context.commit('setViewStatus');
@@ -28,39 +55,12 @@
         console.error('글작성 오류',error);
         throw error;
       });
+      });
     },
 
 os
           .delete(`${process.env.VUE_APP_BACKEND_URL}/board/delete/${post_id}`)
           .then(response => {
-            context.dispatch('get게시물목록');
-            context.commit('setViewStatus');
-            resolve(response);
-          })
-          .catch(error => {
-            console.log('못삭제했노');
-            reject(error);
-          });
-      });
-    },
-
-    파일다운로드(context) {
-      console.log(context.state.선택한카드);
-      console.log(context.state.업로드한음원);
-      const lastDotIndex = context.state.업로드한음원.lastIndexOf('.');
-      const transformName = context.state.업로드한음원.substring(0, lastDotIndex);
-
-      axios.get(`${process.env.VUE_APP_BACKEND_URL}/public/voice/${context.state.선택한카드.voice_name}_${transformName}.wav`, {
-        responseType: 'blob'
-      }).then(response => {
-        const file = new Blob(
-          [response.data], 
-          { type: 'audio/mpeg' } // MIME type for MP3 files
-        );
-        
-        const fileURL = URL.createObjectURL(file);
-        const fileName = `[MyVoice_Result] ${context.state.선택한카드.voice_name}_${transformName}.wav`;
-        context.commit('setFileName',fileName);
 
         const fileLink = document.createElement('a');
         fileLink.href = fileURL;
@@ -91,6 +91,7 @@ os
 }
 .tight-spacing3 {
   line-height: 1.5;
+  font-size: 0.8rem;
 }
 .textCs {
   color:#696969;
@@ -105,7 +106,6 @@ os
   background-color: rgb(91, 92, 105);
   border-radius: 1%;
 }
-
 </style>
 
 <script>
