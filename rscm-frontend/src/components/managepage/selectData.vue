@@ -7,8 +7,8 @@
         <div v-if="선택한데이터"class="text-start row mx-4 my-0 tight-spacing2 h5">
           {{ 선택한데이터.이름 }} / {{ 선택한데이터['수집 날짜'] }} / {{ 선택한데이터['수집 시각'] }}
           <img @click="선택취소()" class="ms-3 mb-1" src="@/assets/svg/cancel-circle.svg" style="max-width:7%;">
-          <img class="mb-1" src="@/assets/svg/download.svg" style="max-width:7%;">
-          <img class="mb-1" src="@/assets/svg/copy.svg" style="max-width:7%;">
+          <img @click="showNothingToast()" class="mb-1" src="@/assets/svg/download.svg" style="max-width:7%;">
+          <img @click="showNothingToast()" class="mb-1" src="@/assets/svg/copy.svg" style="max-width:7%;">
         </div>
 
         <div class="row border-bottom m-4 border-secondary"></div>
@@ -28,7 +28,7 @@
             <span @click="등록할데이터선택()" class="fw-bold white-text h4">Check - 등록 단계로 전송</span>
           </div>
           <div class="col-2 p-0 btn bg-danger py-3 ms-2">
-            <span @click="선택한데이터삭제()" class="fw-bold white-text h5">삭제</span>
+            <span @click="선택데이터삭제()" class="fw-bold white-text h5">삭제</span>
           </div>
         </div>
     </div>
@@ -65,6 +65,7 @@
 
 <script>
 import { mapState,mapMutations } from "vuex";
+import { createToast } from "mosha-vue-toastify";
 
 export default {
   name: "selectData",
@@ -72,7 +73,26 @@ export default {
   data() {
     return {};
   },
-  setup() {},
+  setup() {
+    const successToast = () => {
+      createToast(
+        {
+          title: "원본 수집 데이터 삭제 완료",
+          description: "정상적으로 삭제되었습니다."
+        },
+        {
+          position: "top-center",
+          type: "info",
+          transition: "zoom",
+          timeout: 5000,
+          showCloseButton: true,
+          swipeClose: true,
+          showIcon: true,
+        }
+      );
+    };
+    return { successToast };
+  },
   created() {},
   mounted() {},
   unmounted() {},
@@ -91,6 +111,7 @@ export default {
     선택데이터삭제() {
       if (this.선택한데이터) {
         this.선택한데이터삭제();
+        this.successToast();
       }
     },
 
@@ -99,6 +120,10 @@ export default {
         this.선택한데이터취소();
       }
     },
+
+    showNothingToast() {
+      this.$nothingToast(); // 메서드 이름이 일치해야 함
+    }
   },
 };
 </script>

@@ -13,6 +13,7 @@ export default createStore({
       선택한데이터인덱스: null,
       등록전데이터목록: [],
       등록전데이터목록인덱스: [],
+      일괄모드인덱스: [],
     };
   },
   getters: {},
@@ -31,12 +32,12 @@ export default createStore({
     },
     set수집데이터목록(state, data) {
       state.수집데이터목록 = [...data].sort((a, b) => b.id - a.id);
-      console.log(state.수집데이터목록)
+      //console.log(state.수집데이터목록)
     },
     set선택한데이터(state, { item, id }) {
       state.선택한데이터 = item;
       state.선택한데이터인덱스 = id;
-      console.log(state.선택한데이터, state.선택한데이터인덱스)
+      //console.log(state.선택한데이터, state.선택한데이터인덱스)
     },
     선택한데이터취소(state) {
       state.선택한데이터 = null;
@@ -47,13 +48,13 @@ export default createStore({
       state.등록전데이터목록인덱스.push(state.선택한데이터인덱스);
       state.선택한데이터 = null;
       state.선택한데이터인덱스 = null;
-      console.log("등록전데이터목록: ", state.등록전데이터목록);
+      //console.log("등록전데이터목록: ", state.등록전데이터목록);
     },
     데이터등록취소(state, id) {
       state.등록전데이터목록 = state.등록전데이터목록.filter(function(item) {
         return item.id !== id;
       });
-      console.log("등록전데이터목록: ", state.등록전데이터목록);
+      //console.log("등록전데이터목록: ", state.등록전데이터목록);
       state.등록전데이터목록인덱스 = state.등록전데이터목록인덱스.filter(function(item) {
         return item !== id;
       });
@@ -73,7 +74,23 @@ export default createStore({
       });
       state.선택한데이터 = null;
       state.선택한데이터인덱스 = null;
+    },
+    일괄모드인덱스추가(state, id) {
+      state.일괄모드인덱스.push(id);
+    },
+    일괄모드인덱스제거(state, id) {
+      state.일괄모드인덱스 = state.일괄모드인덱스.filter(function(existingId) {
+        return existingId !== id;
+      });
+    },
+    일괄모드에서데이터등록(state) {
+      state.일괄모드인덱스.forEach(id => {
+        state.등록전데이터목록.push(state.수집데이터목록.find(item => item.id === id));
+        state.등록전데이터목록인덱스.push(id);
+      });
+      state.일괄모드인덱스 = [];
     }
+    
   },
   actions: {
     최종등록(context, viewData) {
@@ -100,7 +117,7 @@ export default createStore({
         //.get(`${process.env.VUE_APP_BACKEND_URL}/board`)
         .then(response => {
           // console.log(response.data);
-          console.log("데이터 목록 불러오기 성공");
+          //console.log("데이터 목록 불러오기 성공");
           context.commit('set수집데이터목록', response.data);
         })
         .catch(error => {

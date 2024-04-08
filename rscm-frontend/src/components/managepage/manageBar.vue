@@ -8,25 +8,25 @@
           </div>
         </div>
   
-        <div class="col-2 pe-1 ps-2">
+        <div @click="showNothingToast()" class="col-2 pe-1 ps-2">
           <div :class="['mt-3 pt-2 pb-1 px-3 text-start custom-border menu-item', menuItemClass(2)]" @click="setManageBarStatus(2)">
             <span class="h5">과거 데이터 관리</span>
           </div>
         </div>
   
-        <div class="col-2 pe-1 ps-2">
+        <div @click="showNothingToast()" class="col-2 pe-1 ps-2">
           <div :class="['mt-3 pt-2 pb-1 px-3 text-start custom-border menu-item', menuItemClass(3)]" @click="setManageBarStatus(3)">
             <span class="h5 p-0">회원 정보 관리</span>
           </div>
         </div>
 
-        <div class="col-2 pe-1 ps-2">
+        <div @click="showNothingToast()" class="col-2 pe-1 ps-2">
           <div :class="['mt-3 pt-2 pb-1 px-3 text-start custom-border menu-item', menuItemClass(4)]" @click="setManageBarStatus(4)">
             <span class="h5">트래픽 관리</span>
           </div>
         </div>
 
-        <div class="col-2 pe-1 ps-2">
+        <div @click="showNothingToast()" class="col-2 pe-1 ps-2">
           <div :class="['mt-3 pt-2 pb-1 px-3 text-start custom-border menu-item', menuItemClass(5)]" @click="setManageBarStatus(5)">
             <span class="h5">기타 제어 사항</span>
           </div>
@@ -92,6 +92,10 @@
     },
     methods: {
       ...mapMutations(['setManageBarStatus']),
+
+    showNothingToast() {
+      this.$nothingToast(); // 메서드 이름이 일치해야 함
+    }
     },
   };
   </script>

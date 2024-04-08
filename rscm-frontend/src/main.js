@@ -12,5 +12,6 @@ import '@animxyz/core' // Import css here if you haven't elsewhere
 
 import moshaToast from 'mosha-vue-toastify'
 import 'mosha-vue-toastify/dist/style.css'
+import toastPlugin from './plugins/toastPlugin';
 
-createApp(App).use(router).use(router).use(store).use(router).use(BootstrapVue3).use(VueAnimXyz).use(moshaToast).mount('#app')
+createApp(App).use(store).use(router).use(BootstrapVue3).use(VueAnimXyz).use(moshaToast).use(toastPlugin).mount('#app')
