@@ -4,8 +4,8 @@
           <p class="my-0 px-0 text-start h3 fw-bold textCs">Selected Data</p>
         </div>
 
-        <div class="text-start row mx-4 my-0 tight-spacing2 h5">
-          수집된 데이터 01 / 24-01-28 / 12:34:56
+        <div v-if="선택한데이터"class="text-start row mx-4 my-0 tight-spacing2 h5">
+          {{ 선택한데이터.이름 }} / {{ 선택한데이터['수집 날짜'] }} / {{ 선택한데이터['수집 시각'] }}
           <img class="ms-3 mb-1" src="@/assets/svg/cancel-circle.svg" style="max-width:7%;">
           <img class="mb-1" src="@/assets/svg/download.svg" style="max-width:7%;">
           <img class="mb-1" src="@/assets/svg/copy.svg" style="max-width:7%;">
@@ -18,54 +18,9 @@
         </div>
 
         <div class="row ms-1 " style="max-width: 93%;">
-          <p class="m-3 mb-2 boxCs3 p-2 text-start tight-spacing3 white-text">
-://19b4a6d6-f894-4563-a86c-2d6760ce7a2d.mock.pstmn.io/auth/register`, userData)
-      .then(response => {
-        context.dispatch('get게시물목록');
-        context.commit('setViewStatus');
-      })
-      .catch(error => {
-        console.error('글작성 오류',error);
-        throw error;://19b4a6d6-f894-4563-a86c-2d6760ce7a2d.mock.pstmn.io/auth/register`, userData)
-      .then(response => {
-        context.dispatch('get게시물목록');
-        context.commit('setViewStatus');
-      })
-      .catch(error => {
-        console.error('글작성 오류',error);
-        throw error;
-      });://19b4a6d6-f894-4563-a86c-2d6760ce7a2d.mock.pstmn.io/auth/register`, userData)
-      .then(response => {
-        context.dispatch('get게시물목록');
-        context.commit('setViewStatus');
-      })
-      .catch(error => {
-        console.error('글작성 오류',error);
-        throw error;
-      });://19b4a6d6-f894-4563-a86c-2d
-      .catch(error => {
-        console.error('글작성 오류',error);
-        throw error;
-      });://19b4a6d6-f894-4563-a86c-2d6760ce7a2d.mock.pstmn.io/auth/register`, userData)
-      .then(response => {
-        context.dispatch('get게시물목록');
-        context.commit('setViewStatus');
-      })
-      .catch(error => {
-        console.error('글작성 오류',error);
-        throw error;
-      });
-      });
-    },
-
-os
-          .delete(`${process.env.VUE_APP_BACKEND_URL}/board/delete/${post_id}`)
-          .then(response => {
-
-        const fileLink = document.createElement('a');
-        fileLink.href = fileURL;
-        fileLink.setAttribute('download', fileName);
-        do</p>
+          <p v-if="선택한데이터" class="m-3 mb-2 boxCs3 p-2 text-start tight-spacing3 white-text">
+            {{ 선택한데이터['상세 내용'] }}
+          </p>
         </div>
 
         <div class="row tight-spacing2 mx-4 mt-4">
@@ -122,7 +77,7 @@ export default {
   mounted() {},
   unmounted() {},
   computed: {
-    ...mapState(["leftToggleStatus"]),
+    ...mapState(["leftToggleStatus" , "선택한데이터"]),
     },
   methods: {
     ...mapMutations(['setLeftToggleStatus']),

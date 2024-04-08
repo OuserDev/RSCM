@@ -21,6 +21,12 @@
           <div class="container mt-5 tight-spacing2 textCs text-start fw-bold">
             <form>
               <div class="form-group row py-1">
+                <label for="inputDate" class="col-sm-5 col-form-label">발생 지역</label>
+                <div class="col-sm-7">
+                  <input type="text" class="form-control" id="inputDate" placeholder="강원도 홍천군">
+                </div>
+              </div>
+              <div class="form-group row py-1">
                 <label for="inputDate" class="col-sm-5 col-form-label">추정 날짜 및 시간</label>
                 <div class="col-sm-7">
                   <input type="text" class="form-control" id="inputDate" placeholder="01월 22일 오전 11시 50분">
@@ -61,7 +67,7 @@
         <div class="d-flex justify-content-center align-items-center row tight-spacing2 mx-4 mt-4">
           <div class="col p-0 py-1 form-group row">
             <button type="submit" class="btn boxCs2 btn white-text p-2 pt-3"><span class="h4 fw-bold">Apply - 최종 등록</span>
-              <img class="ms-3 mb-1" src="@/assets/svg/upload.svg" style="max-width: 9%">
+              <img class="ms-3 mb-1" src="@/assets/svg/upload.svg" style="max-width: 9%;">
             </button>
           </div>
         </div>
@@ -99,7 +105,7 @@
 </style>
 
 <script>
-import { mapState,mapMutations } from "vuex";
+import { mapState,mapMutations,mapActions } from "vuex";
 
 export default {
   name: "checkedData",

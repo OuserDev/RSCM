@@ -9,7 +9,7 @@
   "dependencies": {
     "@animxyz/core": "^0.6.6",
     "@animxyz/vue3": "^0.6.7",
-    "axios": "^1.6.7",
+    "axios": "^1.6.8",
     "bootstrap-vue-3": "^0.5.1",
     "core-js": "^3.8.3",
     "vue": "^3.2.13",

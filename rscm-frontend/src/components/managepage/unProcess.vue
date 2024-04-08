@@ -41,20 +41,19 @@
 
         <div class="row border-bottom m-4 border-secondary"></div>
 
-        <div class="row tight-spacing3 mx-4 my-1" v-for="index in 6" :key="index">
-          <span class="fw-light text-start h6 textCs">수집된 데이터 01 / 24-01-28 / 12:34:56</span>
-        </div>
-        <div class="row tight-spacing3 mx-4 selectCs d-flex align-items-center py-1">
-          <span class="text-white fw-bold text-start h6 textCs d-flex align-items-center m-0">수집된 데이터 02 / 24-01-28 / 12:34:56</span>
-        </div>
-        <div class="row tight-spacing3 mx-4 my-1" v-for="index in 6" :key="index">
-          <span class="fw-light text-start h6 textCs">수집된 데이터 01 / 24-01-28 / 12:34:56</span>
+        <div class="row tight-spacing3 mx-4 my-1"
+        :class="{ 'selectCs d-flex align-items-center py-1': 선택한데이터인덱스 === index }"
+        @click="데이터선택(item, index)"
+        v-for="(item, index) in 수집데이터목록"
+        :key="index">
+          <span class="fw-light text-start h6 textCs"
+          :class="{'text-white fw-bold': 선택한데이터인덱스 === index}" >
+            {{ item['이름'] }} / {{ item['수집 날짜'] }} / {{ item['수집 시각'] }}</span>
         </div>
 
         <div class="row tight-spacing2 mx-4 mt-2">
           <div class="col-7 p-0 btn boxCs2 py-3">
-            <span class="fw-bold white-text h5">일괄 선택</span>
-            <img class="ms-3 mb-1" src="@/assets/svg/check.svg" style="max-width:5%;">
+            <span class="fw-bold white-text h5">일괄 선택 (등록 단계로 한번에 전송)</span>
           </div>
           <div class="col p-0 btn bg-danger py-3 ms-2">
             <span class="fw-bold white-text h5">일괄 삭제</span>
@@ -92,23 +91,32 @@
 </style>
 
 <script>
-import { mapState,mapMutations } from "vuex";
+import { mapState,mapMutations,mapActions } from "vuex";
 
 export default {
   name: "unProcess",
   components: {},
   data() {
-    return {};
+    return {
+    };
   },
   setup() {},
-  created() {},
   mounted() {},
   unmounted() {},
   computed: {
-    ...mapState(["leftToggleStatus"]),
+    ...mapState(["leftToggleStatus", "수집데이터목록", "선택한데이터인덱스"]),
     },
   methods: {
-    ...mapMutations(['setLeftToggleStatus']),
+    ...mapMutations(['setLeftToggleStatus', "set선택한데이터"]),
+    ...mapActions(["get수집데이터목록",]),
+
+    데이터선택(item, index) {
+      this.set선택한데이터({item, index});
+      console.log("선택한 데이터: ", item, index);
+    }
   },
+  created() {
+    this.get수집데이터목록();
+  }
 };
 </script>
