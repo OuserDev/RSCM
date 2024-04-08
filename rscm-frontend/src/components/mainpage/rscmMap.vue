@@ -41,6 +41,7 @@ export default {
       });
     }
 
+    // API 로드 후 지도 초기화
     function initializeMap() {
       const mapContainer = document.getElementById("map");
       const mapOption = {
@@ -50,6 +51,34 @@ export default {
 
       map.value = new kakao.maps.Map(mapContainer, mapOption);
 
+      // 마커를 추가하는 코드
+      const imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png', // 마커 이미지 URL
+          imageSize = new kakao.maps.Size(64, 69), // 마커 이미지 크기
+          imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커 이미지에서의 옵션
+
+      const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+          markerPosition = new kakao.maps.LatLng(36.370998, 129.237870); // 마커 위치
+
+      const marker = new kakao.maps.Marker({
+        position: markerPosition,
+        image: markerImage // 마커 이미지 설정
+      });
+
+      marker.setMap(map.value); // 마커를 지도 위에 표시
+
+      // 인포윈도우에 표출될 내용
+      const iwContent = '<div style="padding:5px;">test <br><a href="https://map.kakao.com/link/map/안녕하세요!,36.370998,129.237870" style="color:blue" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/안녕하세요!,36.370998,129.237870" style="color:blue" target="_blank">길찾기</a></div>',
+          iwPosition = new kakao.maps.LatLng(36.370998, 129.237870); // 인포윈도우 표시 위치
+
+      // 인포윈도우를 생성하고 마커 위에 표시
+      const infowindow = new kakao.maps.InfoWindow({
+          position: iwPosition, 
+          content: iwContent 
+      });
+
+      infowindow.open(map.value, marker); // 인포윈도우를 마커 위에 표시  
+    
+      // 지도 이동 시 이벤트
       map.value.addListener("zoom_changed", () => {
         const level = map.value.getLevel();
         mapState.previousLevel = mapState.currentLevel;

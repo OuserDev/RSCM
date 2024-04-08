@@ -16,13 +16,13 @@
         </div>
       </router-link>
 
-      <div :class="['menu-item', menuItemClass(3)]">
+      <div @click="showNothingToast()" :class="['menu-item', menuItemClass(3)]">
         <div class="p-3">
           <img class="img-fluid" src="@/assets/svg/user.svg">
         </div>
       </div>
 
-      <div :class="['menu-item', menuItemClass(4)]">
+      <div @click="showNothingToast()" :class="['menu-item', menuItemClass(4)]">
         <div class="p-3">
           <img class="img-fluid" src="@/assets/svg/bar.svg">
         </div>
@@ -56,7 +56,7 @@ export default {
   mounted() {},
   unmounted() {},
   computed: {
-  ...mapState(["leftToggleStatus", "sideBarStatus"]),
+  ...mapState(["sideBarStatus"]),
 
   menuItemClass() {
       return (menuItemNumber) => {
@@ -69,7 +69,11 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['setLeftToggleStatus', 'setSideBarStatus']),
+    ...mapMutations(['setSideBarStatus']),
+
+  showNothingToast() {
+    this.$nothingToast(); // 메서드 이름이 일치해야 함
+  }
   },
 };
 </script>
