@@ -42,13 +42,15 @@
         <div class="row border-bottom m-4 border-secondary"></div>
 
         <div class="row tight-spacing3 mx-4 my-1"
-        :class="{ 'selectCs d-flex align-items-center py-1': 선택한데이터인덱스 === index }"
-        @click="데이터선택(item, index)"
-        v-for="(item, index) in 수집데이터목록"
-        :key="index">
+          :class="{ 'selectCs d-flex align-items-center': 선택한데이터인덱스 === item.id,
+                    'black-box': 등록전데이터목록인덱스.includes(item.id)
+           }"
+        @click="데이터선택(item)"
+        v-for="item in 수집데이터목록"
+        :key="item.id">
           <span class="fw-light text-start h6 textCs"
-          :class="{'text-white fw-bold': 선택한데이터인덱스 === index}" >
-            {{ item['이름'] }} / {{ item['수집 날짜'] }} / {{ item['수집 시각'] }}</span>
+          :class="{'text-white fw-bold': 선택한데이터인덱스 === item.id || 등록전데이터목록인덱스.includes(item.id)}" >
+            [{{ item.id }}] {{ item['이름'] }} / {{ item['수집 날짜'] }} / {{ item['수집 시각'] }}</span>
         </div>
 
         <div class="row tight-spacing2 mx-4 mt-2">
@@ -63,6 +65,9 @@
 </template>
 
 <style scoped>
+.black-box {
+  background-color: #727577; /* 검정색 배경 */
+}
 .white-text {
   color: #FFFFFF; /* 글자색 하얀색 */
 }
@@ -104,19 +109,26 @@ export default {
   mounted() {},
   unmounted() {},
   computed: {
-    ...mapState(["leftToggleStatus", "수집데이터목록", "선택한데이터인덱스"]),
+    ...mapState(["leftToggleStatus", "수집데이터목록", "선택한데이터인덱스", "등록전데이터목록인덱스"]),
     },
   methods: {
-    ...mapMutations(['setLeftToggleStatus', "set선택한데이터"]),
+    ...mapMutations(['setLeftToggleStatus', "set선택한데이터", "선택한데이터취소"]),
     ...mapActions(["get수집데이터목록",]),
 
-    데이터선택(item, index) {
-      this.set선택한데이터({item, index});
-      console.log("선택한 데이터: ", item, index);
-    }
+    데이터선택(item) {
+      // '등록전데이터목록인덱스'에 index가 포함되어 있지 않은 경우에만 선택 처리
+      if (!this.등록전데이터목록인덱스.includes(item.id)) {
+        if (this.선택한데이터인덱스 === item.id) {
+          this.선택한데이터취소();
+        } else {
+          this.set선택한데이터({ item, id:item.id });
+        }
+      }
+      console.log("선택한 데이터: ", item, item.id);
+    },
   },
   created() {
     this.get수집데이터목록();
-  }
+  },
 };
 </script>

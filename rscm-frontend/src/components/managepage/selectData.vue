@@ -6,7 +6,7 @@
 
         <div v-if="선택한데이터"class="text-start row mx-4 my-0 tight-spacing2 h5">
           {{ 선택한데이터.이름 }} / {{ 선택한데이터['수집 날짜'] }} / {{ 선택한데이터['수집 시각'] }}
-          <img class="ms-3 mb-1" src="@/assets/svg/cancel-circle.svg" style="max-width:7%;">
+          <img @click="선택취소()" class="ms-3 mb-1" src="@/assets/svg/cancel-circle.svg" style="max-width:7%;">
           <img class="mb-1" src="@/assets/svg/download.svg" style="max-width:7%;">
           <img class="mb-1" src="@/assets/svg/copy.svg" style="max-width:7%;">
         </div>
@@ -25,10 +25,10 @@
 
         <div class="row tight-spacing2 mx-4 mt-4">
           <div class="col p-0 btn boxCs2 py-3">
-            <span class="fw-bold white-text h4">Check - 등록 단계로 전송</span>
+            <span @click="등록할데이터선택()" class="fw-bold white-text h4">Check - 등록 단계로 전송</span>
           </div>
           <div class="col-2 p-0 btn bg-danger py-3 ms-2">
-            <span class="fw-bold white-text h5">삭제</span>
+            <span @click="선택한데이터삭제()" class="fw-bold white-text h5">삭제</span>
           </div>
         </div>
     </div>
@@ -77,10 +77,28 @@ export default {
   mounted() {},
   unmounted() {},
   computed: {
-    ...mapState(["leftToggleStatus" , "선택한데이터"]),
+    ...mapState(["leftToggleStatus" , "선택한데이터",]),
     },
   methods: {
-    ...mapMutations(['setLeftToggleStatus']),
+    ...mapMutations(['setLeftToggleStatus', '등록전데이터목록에추가', '선택한데이터삭제', '선택한데이터취소']),
+
+    등록할데이터선택() {
+      if (this.선택한데이터) {
+        this.등록전데이터목록에추가();
+      }
+    },
+
+    선택데이터삭제() {
+      if (this.선택한데이터) {
+        this.선택한데이터삭제();
+      }
+    },
+
+    선택취소() {
+      if (this.선택한데이터) {
+        this.선택한데이터취소();
+      }
+    },
   },
 };
 </script>
