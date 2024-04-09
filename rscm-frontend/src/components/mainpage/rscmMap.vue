@@ -79,10 +79,9 @@ export default {
         */
       });
 
-      this.loadPolygonData(
-        sidoJson
+      this.loadPolygonData(sidoJson
         //this.mapState.currentLevel <= 10 ? sidoJsonUp : sidoJson
-      ); // 초기화 시 폴리곤 데이터 로드
+        ); // 초기화 시 폴리곤 데이터 로드
       // 마커 추가하는 코드
       const imageSrc =
           "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png", // 마커 이미지 URL
@@ -136,9 +135,9 @@ export default {
       const polygon = new kakao.maps.Polygon({
         map: this.map, // 수정된 부분
         path: path,
-        strokeWeight: 2,
+        strokeWeight: 1,
         strokeColor: "#004c80",
-        strokeOpacity: 0.8,
+        strokeOpacity: 1,
         fillColor: "#fff",
         fillOpacity: 0.7,
       });
@@ -148,7 +147,7 @@ export default {
 
       // 마우스 오버 이벤트
       kakao.maps.event.addListener(polygon, "mouseover", () => {
-        polygon.setOptions({ fillColor: "#09f" });
+        polygon.setOptions({ fillColor: "#80B0FC" });
       });
 
       // 마우스 아웃 이벤트
@@ -160,7 +159,7 @@ export default {
       kakao.maps.event.addListener(polygon, "click", () => {
         const level = this.map.getLevel() - 2;
         this.map.setLevel(level, {
-          anchor: centerMap(path),
+          anchor: this.centerMap(path),
           animate: { duration: 350 },
         });
       });
@@ -179,18 +178,18 @@ export default {
 
       // 위치를 조정하고 싶은 여러 지역들의 조정 값을 매핑하는 객체
       const locationAdjustments = {
-        서울: { lat: -0.04, lng: -0.05 },
-        세종: { lat: -0.08, lng: -0.01 },
-        대전: { lat: -0.05, lng: -0.03 },
-        인천: { lat: -0.04, lng: -0.05 },
+        서울: { lat: -0.02, lng: -0.03 },
+        세종: { lat: -0.04, lng: 0 },
+        대전: { lat: -0.02, lng: -0.03 },
+        인천: { lat: -0.01, lng: -0.01 },
         경기: { lat: 0, lng: +0.13 },
-        부산: { lat: -0.06, lng: -0.01 },
-        광주: { lat: -0.06, lng: -0.05 },
+        부산: { lat: -0.02, lng: -0.01 },
+        광주: { lat: -0.02, lng: -0.03 },
         제주: { lat: -0.06, lng: -0.04 },
         전남: { lat: -0.05, lng: +0.01 },
         경남: { lat: 0.02, lng: -0.06 },
         울산: { lat: -0.06, lng: -0.03 },
-        대구: { lat: -0.07, lng: -0.05 },
+        대구: { lat: -0.04, lng: -0.03 },
       };
 
       // 해당 지역의 위치 조정이 필요한 경우, 조정 값을 적용
@@ -214,7 +213,7 @@ export default {
         position: position,
         content: content,
         xAnchor: 0.3,
-        yAnchor: 0.91,
+        yAnchor: 0.91, //
       });
 
       overlay.setMap(this.map); // 수정된 부분

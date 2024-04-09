@@ -1,6 +1,6 @@
 <template>
         <!-- 왼쪽 대시보드 -->
-        <XyzTransition appear mode="out-in">
+        <XyzTransition>
             <leftDashboard xyz="fade left-100%"/>
         </XyzTransition>
 
@@ -20,7 +20,7 @@
         </button>
 
         <!-- 오른쪽 대시보드 -->
-        <XyzTransition appear mode="out-in">
+        <XyzTransition>
             <rightDashboard xyz="fade right-100%"/>
         </XyzTransition>
 </template>
@@ -44,16 +44,25 @@ export default {
         return {
         };
     },
-    setup() { },
-    created() { },
+    created() {
+    },
+	watch: {
+		지역명데이터(newVal, oldVal) {
+			// 지역명데이터가 변경되었을 때만 뷰데이터 목록 업데이트
+			if (newVal !== oldVal) {
+				this.get뷰데이터목록();
+			}
+		}
+	},
     mounted() {
     },
     unmounted() { },
     computed: {
-        ...mapState(["leftToggleStatus", "rightToggleStatus"]),
+        ...mapState(['leftToggleStatus', 'rightToggleStatus' ,'지역명데이터']),
     },
     methods: {
         ...mapMutations(['setLeftToggleStatus', 'setRightToggleStatus']),
+		...mapActions(["get뷰데이터목록"]),
     },
 };
 </script>
