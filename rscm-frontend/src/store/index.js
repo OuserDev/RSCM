@@ -14,6 +14,7 @@ export default createStore({
       등록전데이터목록: [],
       등록전데이터목록인덱스: [],
       일괄모드인덱스: [],
+      지역명데이터: [],
     };
   },
   getters: {},
@@ -89,10 +90,16 @@ export default createStore({
         state.등록전데이터목록인덱스.push(id);
       });
       state.일괄모드인덱스 = [];
-    }
-    
+    },
+    UPDATE_REGION_DATA(state, payload) {
+      state.지역명데이터 = payload;
+      console.log(state.지역명데이터);
+    },
   },
   actions: {
+    updateRegionData({ commit }, payload) {
+      commit('UPDATE_REGION_DATA', payload);
+    },
     최종등록(context, viewData) {
       const requestData = {
         ...viewData,

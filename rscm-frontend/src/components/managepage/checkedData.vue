@@ -48,13 +48,13 @@
               <div class="form-group row py-1">
                 <label for="inputDate" class="col-sm-5 col-form-label">추정 날짜 및 시각</label>
                 <div class="col-sm-7">
-                  <input type="datetime-local" class="form-control" v-model="date" id="date" placeholder="01월 22일 오전 11시 50분">
+                  <input type="datetime-local" class="form-control" v-model="datetime" id="datetime" placeholder="01월 22일 오전 11시 50분">
                 </div>
               </div>
               <div class="form-group row py-1">
                 <label for="inputType" class="col-sm-5 col-form-label">범죄 유형</label>
                 <div class="col-sm-7">
-                  <input type="text" class="form-control" v-model="type" id="type" placeholder="방화 및 절도">
+                  <input type="text" class="form-control" v-model="crime_type" id="crime_type" placeholder="방화 및 절도">
                 </div>
               </div>
               <div class="form-group row py-1">
@@ -66,20 +66,20 @@
               <div class="form-group row py-1">
                 <label for="inputAge" class="col-sm-5 col-form-label">가해자 또는 가해 규모</label>
                 <div class="col-sm-7">
-                  <input type="text" class="form-control" v-model="age" id="age" placeholder="30대 남성">
+                  <input type="text" class="form-control" v-model="offender" id="offender" placeholder="30대 남성">
                 </div>
               </div>
               <div class="form-group row py-1">
                 <label for="inputCount" class="col-sm-5 col-form-label">피해자 또는<br>피해액, 피해 규모</label>
                 <div class="col-sm-7 pt-2">
-                  <input type="text" class="form-control" v-model="count" id="count" placeholder="1명 경상, 2명 중상">
+                  <input type="text" class="form-control" v-model="victim" id="victim" placeholder="1명 경상, 2명 중상">
                 </div>
               </div>
               <div class="form-group row py-1">
                 <label for="inputDetails" class="col-sm-6 col-form-label">공개 가능한 부가 정보</label>
               </div>
               
-              <textarea class="form-control" v-model="details" id="details" rows="3" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit..."></textarea>
+              <textarea class="form-control" v-model="add_information" id="add_information" rows="3" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit..."></textarea>
               
               <div class="d-flex justify-content-center align-items-center row tight-spacing2 mx-4 mt-4">
                 <div class="col p-0 py-1 form-group row">
@@ -135,12 +135,12 @@ export default {
   data() {
     return {
       region: '',
-      date: '',
-      type: '',
+      datetime: '',
+      crime_type: '',
       location: '',
-      age: '',
-      count: '',
-      details: '',
+      offender: '',
+      victim: '',
+      add_information: '',
     };
   },
   setup() {
@@ -216,18 +216,18 @@ export default {
         this.errorToast1();
         return;
       }
-      if (this.region === '' || this.date === '' || this.type === '' || this.location === '' || this.age === '' || this.count === '' || this.details === '') {
+      if (this.region === '' || this.datetime === '' || this.crime_type === '' || this.location === '' || this.offender === '' || this.victim === '' || this.add_information === '') {
         this.errorToast2();
         return;
       }
       const viewData = {
         region: this.region,
-        date: this.date,
-        type: this.type,
+        datetime: this.datetime,
+        crime_type: this.crime_type,
         location: this.location,
-        age: this.age,
-        count: this.count,
-        details: this.details,
+        offender: this.offender,
+        victim: this.victim,
+        add_information: this.add_information,
       };
       //console.log(viewData);
       this.최종등록(viewData)
@@ -235,12 +235,12 @@ export default {
             //('등록 성공');
             this.successToast();
             this.region = '',
-            this.date = '',
-            this.type = '',
+            this.datetime = '',
+            this.crime_type = '',
             this.location = '',
-            this.age = '',
-            this.count = '',
-            this.details = ''
+            this.offender = '',
+            this.victim = '',
+            this.add_information = ''
         })
         .catch(error => {
           //(error);

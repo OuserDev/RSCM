@@ -13,7 +13,7 @@ export default {
           position: "top-center",
           type: "warning",
           transition: "bounce",
-          timeout: 5000,
+          timeout: 3333,
           showCloseButton: true,
           swipeClose: true,
           showIcon: true,
