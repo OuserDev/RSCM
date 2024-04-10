@@ -6,9 +6,11 @@ export default createStore({
     return {
       leftToggleStatus: 0,
       rightToggleStatus: 0,
-      sideBarStatus: 2,
+      sideBarStatus: 1,
       manageBarStatus: 1,
       수집데이터목록: [],
+      뷰데이터목록: [],
+      지역명데이터: [],
       선택한데이터: null,
       선택한데이터인덱스: null,
       등록전데이터목록: [],
@@ -24,6 +26,10 @@ export default createStore({
     setRightToggleStatus(state) {
       state.rightToggleStatus ^= 1;
     },
+    대시보드상태초기화(state) {
+      state.leftToggleStatus = 0;
+      state.rightToggleStatus = 0;
+    },
     setSideBarStatus(state, status) {
       state.sideBarStatus = status;
     },
@@ -33,6 +39,29 @@ export default createStore({
     set수집데이터목록(state, data) {
       state.수집데이터목록 = [...data].sort((a, b) => b.id - a.id);
       //console.log(state.수집데이터목록)
+    },
+    UPDATE_REGION_DATA(state, payload) {
+      state.지역명데이터 = payload;
+      //console.log(state.지역명데이터);
+    },
+    set뷰데이터목록(state, 뷰데이터목록) {
+      const 지역명데이터 = state.지역명데이터;
+      console.log(state.지역명데이터);
+      // 뷰데이터목록에 지역명데이터의 내용을 추가한다
+      state.뷰데이터목록 = 뷰데이터목록.map(item => {
+        // 뷰데이터의 region_code와 일치하는 지역명데이터 항목을 찾는다
+        const regionItem = 지역명데이터[item.region_code];
+        
+        // 일치하는 지역명데이터 항목을 찾았다면 정보 추가
+        if (regionItem) {
+          item.region_name = regionItem.name;  // 지역명 추가
+          item.latitude = regionItem.latitude; // 위도 추가
+          item.longitude = regionItem.longitude; // 경도 추가
+        }
+        
+        return item;
+      }).sort((a, b) => b.id - a.id); // 뷰데이터목록을 id 기준으로 정렬
+      console.log("뷰데이터목록", state.뷰데이터목록);
     },
     set선택한데이터(state, { item, id }) {
       state.선택한데이터 = item;
@@ -89,10 +118,12 @@ export default createStore({
         state.등록전데이터목록인덱스.push(id);
       });
       state.일괄모드인덱스 = [];
-    }
-    
+    },
   },
   actions: {
+    updateRegionData({ commit }, payload) {
+      commit('UPDATE_REGION_DATA', payload);
+    },
     최종등록(context, viewData) {
       const requestData = {
         ...viewData,
@@ -125,6 +156,21 @@ export default createStore({
           throw error;
         });
       },
+      get뷰데이터목록(context) {
+        // actions에서 commit을 사용할거면, context를 parameter로 받아야함
+          axios
+          .get('viewData.json')
+          //.get(`${process.env.VUE_APP_BACKEND_URL}/board`)
+          .then(response => {
+            // console.log(response.data);
+            //console.log("데이터 목록 불러오기 성공");
+            context.commit('set뷰데이터목록', response.data);
+          })
+          .catch(error => {
+            console.error("데이터 목록 불러오기 실패");
+            throw error;
+          });
+        },
   },
   modules: {},
 });

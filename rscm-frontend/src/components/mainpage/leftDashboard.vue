@@ -1,5 +1,5 @@
 <template>
-    <div class="col container-fluid border border-secondary mx-0 px-0" style="max-width:30%; background: #ffffff;" v-if="leftToggleStatus == 1">
+    <div class="position-relative z-2 container-fluid border border-secondary mx-0 px-0" style="max-width:30%; background: #ffffff;" v-if="leftToggleStatus == 1">
 
       <div class="container-fluid p-3 border-bottom border-secondary" style="min-height:50%;">
         <div class="row m-4"> <!-- 현황 박스 -->
@@ -10,6 +10,9 @@
           </p>
         </div>
         <div class="row border-bottom m-4 border-secondary"></div>
+        <div class="row">
+            <span v-for="item in 뷰데이터목록" :key="item.id" class="h6 px-3 fw-bold text-dark">{{ item['region_name'] }} / {{ item['datetime'] }} / {{ item['crime_type'] }}</span>
+        </div>
       </div>
 
       <div class="container-fluid p-3 bg-light" style="min-height: 50%;">
@@ -46,7 +49,7 @@ export default {
   mounted() {},
   unmounted() {},
   computed: {
-    ...mapState(["leftToggleStatus"]),
+    ...mapState(["leftToggleStatus", "뷰데이터목록"]),
     },
   methods: {
     ...mapMutations(['setLeftToggleStatus']),

@@ -1,0 +1,62 @@
+[
+  {
+      "id": 8,
+      "datetime": "2024-04-08 22:10:45",
+      "crime_type": "절도",
+      "location": "쇼핑몰 (스타필드)",
+      "offender": "20대 여성",
+      "victim": "상점 주인",
+      "add_information": "경비원이 신속하게 대응하여 현장에서 용의자를 붙잡았다.",
+      "region_code": 3
+  },
+  {
+      "id": 2,
+      "datetime": "2024-04-06 18:05:12",
+      "crime_type": "사기",
+      "location": "인터넷 (온라인 거래)",
+      "offender": "신원 미상",
+      "victim": "남성 1명",
+      "add_information": "피해자는 온라인 중고 거래 사이트에서 고가의 전자기기를 구매하려다 사기를 당했다.",
+      "region_code": 11
+  },
+  {
+      "id": 3,
+      "datetime": "2024-04-07 15:20:30",
+      "crime_type": "폭행",
+      "location": "길거리 (로데오거리)",
+      "offender": "신원 미상",
+      "victim": "남성 2명",
+      "add_information": "강남구에서 늦은 밤까지 이어지는 소음 문제로 주민들이 불편을 겪고 있다.",
+      "region_code": 5
+  },
+  {
+      "id": 12,
+      "datetime": "2024-04-09 01:30:55",
+      "crime_type": "도난",
+      "location": "주차장 (지하 주차장)",
+      "offender": "미상",
+      "victim": "차량 소유주 여성",
+      "add_information": "주차장 내부의 보안 카메라가 고장 난 상태여서 용의자를 식별하기 어렵다.",
+      "region_code": 2
+  },
+  {
+      "id": 5,
+      "datetime": "2024-04-05 20:45:00",
+      "crime_type": "방화",
+      "location": "주택가 (다세대 주택)",
+      "offender": "40대 남성",
+      "victim": "주민 여러 명",
+      "add_information": "용의자는 이전부터 지역 주민과의 불화가 있었다고 한다.",
+      "region_code": 5
+  },
+  {
+      "id": 6,
+      "datetime": "2024-04-04 23:17:08",
+      "crime_type": "공공장소에서의 소란",
+      "location": "공원 (한강 공원)",
+      "offender": "10대 청소년 그룹",
+      "victim": "공원 이용객",
+      "add_information": "경찰 도착 시, 용의자들은 이미 현장을 떠난 상태였다.",
+      "region_code": 13
+  }
+]
