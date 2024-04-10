@@ -1,12 +1,12 @@
 <template>
-    <div class="col border border-secondary border-start-0 me-4 mt-3 px-0 mh-100 boxCs" style="height: 90%;">
+    <div class="col border border-secondary border-start-0 me-4 mt-3 px-0 boxCs" style="">
         <div class="row m-3">
           <p class="my-0 px-0 text-start h3 fw-bold textCs">Checked List</p>
         </div>
 
         <div class="text-start row mx-4 my-0 tight-spacing2 textCs h6" v-for="item in 등록전데이터목록" :key="item.id">
-          [{{ item.id }}] {{ item['이름'] }} / {{ item['수집 날짜'] }} / {{ item['수집 시각'] }}
-          <img @click="등록취소(item.id)" class="ms-3 mb-1 my-1" src="@/assets/svg/cancel-circle.svg" style="max-width:8%;">
+          [{{ item.id }}] {{ item['keyword'] }}
+          <img @click="등록취소(item.id)" class="ms-3 mb-0" src="@/assets/svg/cancel-circle.svg" style="max-width:9%;">
           <!-- <img class="mb-1" src="@/assets/svg/download.svg" style="max-width:9%;">-->
           <!-- <img class="mb-1" src="@/assets/svg/copy.svg" style="max-width:9%;">-->
         </div>
@@ -48,7 +48,7 @@
               <div class="form-group row py-1">
                 <label for="inputDate" class="col-sm-5 col-form-label">추정 날짜 및 시각</label>
                 <div class="col-sm-7">
-                  <input type="datetime-local" class="form-control" v-model="datetime" id="datetime" placeholder="01월 22일 오전 11시 50분">
+                  <input type="text" class="form-control" v-model="datetime" id="datetime" placeholder="01월 22일 오전 11시 50분">
                 </div>
               </div>
               <div class="form-group row py-1">

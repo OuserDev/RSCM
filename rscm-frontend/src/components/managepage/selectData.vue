@@ -1,11 +1,11 @@
 <template>
-    <div class="col-4 border border-secondary border-start-0 mt-3 px-0 mh-100 boxCs" style="height: 90%;">
+    <div class="col-4 border border-secondary border-start-0 mt-3 px-0 boxCs" style="">
         <div class="row m-3">
           <p class="my-0 px-0 text-start h3 fw-bold textCs">Selected Data</p>
         </div>
 
         <div v-if="선택한데이터"class="text-start row mx-4 my-0 tight-spacing2 h5">
-          {{ 선택한데이터.이름 }} / {{ 선택한데이터['수집 날짜'] }} / {{ 선택한데이터['수집 시각'] }}
+          {{ 선택한데이터.keyword }}
           <img @click="선택취소()" class="ms-3 mb-1" src="@/assets/svg/cancel-circle.svg" style="max-width:7%;">
           <img @click="showNothingToast()" class="mb-1" src="@/assets/svg/download.svg" style="max-width:7%;">
           <img @click="showNothingToast()" class="mb-1" src="@/assets/svg/copy.svg" style="max-width:7%;">
@@ -19,7 +19,7 @@
 
         <div class="row ms-1 " style="max-width: 93%;">
           <p v-if="선택한데이터" class="m-3 mb-2 boxCs3 p-2 text-start tight-spacing3 white-text">
-            {{ 선택한데이터['상세 내용'] }}
+            {{ 선택한데이터['content'] }}
           </p>
         </div>
 
@@ -64,7 +64,7 @@
 </style>
 
 <script>
-import { mapState,mapMutations } from "vuex";
+import { mapState,mapMutations, mapActions } from "vuex";
 import { createToast } from "mosha-vue-toastify";
 
 export default {
@@ -101,17 +101,21 @@ export default {
     },
   methods: {
     ...mapMutations(['setLeftToggleStatus', '등록전데이터목록에추가', '선택한데이터삭제', '선택한데이터취소']),
-
+    ...mapActions(["get선택한데이터삭제",]),
     등록할데이터선택() {
       if (this.선택한데이터) {
         this.등록전데이터목록에추가();
       }
     },
 
-    선택데이터삭제() {
+    async 선택데이터삭제() {
       if (this.선택한데이터) {
-        this.선택한데이터삭제();
-        this.successToast();
+        try {
+          await this.get선택한데이터삭제(this.선택한데이터.id);
+          this.successToast();
+        } catch (error) {
+          console.log("삭제 실패");
+        }
       }
     },
 

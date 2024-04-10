@@ -31,12 +31,12 @@ export default {
   created() {
     this.loadKakaoMapsAPI().then(() => {
       this.initializeMap();
-      this.$nextTick(() => {
-        this.updateRegionData(this.regionsData);
-        this.setLeftToggleStatus();
-        this.get뷰데이터목록();
+        this.$nextTick(() => {
+          this.setLeftToggleStatus();
       });
     });
+  },
+  mounted() {
   },
   computed: {
     ...mapState(["뷰데이터목록"]),
@@ -89,8 +89,12 @@ export default {
         //this.mapState.currentLevel <= 10 ? sidoJsonUp : sidoJson
         ); // 초기화 시 폴리곤 데이터 로드
       console.log("loadPolygonData 함수 실행")
-      this.displayMarkers(this.뷰데이터목록);
-      console.log("displayMarkers 함수 실행")
+      this.updateRegionData(this.regionsData);
+
+      this.get뷰데이터목록().then(() => {
+        this.displayMarkers(this.뷰데이터목록);
+        console.log("displayMarkers 함수 실행", this.뷰데이터목록)
+      });
     },
 
     loadPolygonData(data) {
@@ -101,7 +105,7 @@ export default {
         const name =
           feature.properties.SIG_KOR_NM || feature.properties.CTP_KOR_NM;
         this.displayMap(coordinates, name, index);
-        console.log("displayMap 함수 실행:", name)
+        //console.log("displayMap 함수 실행:", name)
       });
     },
 
@@ -123,7 +127,7 @@ export default {
 
       this.polygons.push(polygon); // 수정된 부분
       this.overlaySet(name, path, index); // 수정된 부분
-      console.log("overlaySet 함수 실행:", name)
+      //console.log("overlaySet 함수 실행:", name)
 
       // 마우스 오버 이벤트
       kakao.maps.event.addListener(polygon, "mouseover", () => {

@@ -1,5 +1,5 @@
 <template>
-    <div class="col-4 border border-secondary ms-4 mt-3 px-0 mh-100 boxCs" style="height: 90%;">
+    <div class="col-4 border border-secondary ms-4 mt-3 px-0 boxCs">
         <div class="row m-3">
           <p class="my-0 px-0 text-start tight-spacing h3 fw-bold textCs">현재 처리되지 않은 데이터</p>
         </div>
@@ -51,7 +51,7 @@
         :key="item.id">
           <span class="fw-light text-start h6 textCs"
           :class="{'text-white fw-bold': (선택한데이터인덱스 === item.id && 일괄모드상태 == false) || 등록전데이터목록인덱스.includes(item.id) || (일괄모드상태 == true && 일괄모드인덱스.includes(item.id))}" >
-            [{{ item.id }}] {{ item['이름'] }} / {{ item['수집 날짜'] }} / {{ item['수집 시각'] }}</span>
+            [{{ item.id }}] {{ item['keyword'] }}</span>
         </div>
 
         <div class="row tight-spacing2 mx-4 mt-2">

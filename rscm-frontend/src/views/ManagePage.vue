@@ -1,15 +1,15 @@
 <template>
-  <div class="col p-0 bck">
+  <div class="col p-0 bck" style="height: 87vh;">
     <!-- 상단바 -->
     <manageBar/>
 
-    <div class="mx-auto row h-100" v-if="manageBarStatus === 1">
+    <div class="mx-auto row" v-if="manageBarStatus === 1" style="height: 80vh;">
       <unProcess/>
-      <div class="col mt-3 px-0 mh-100 h5 fw-bold boxCs d-flex justify-content-center align-items-center" style="height: 90%; background: #a19e9e; max-width:2%;">
+      <div class="col mt-3 mb-0 px-0 h5 fw-bold boxCs d-flex justify-content-center align-items-center" style="background: #a19e9e; max-width:2%;">
             <span>▶</span>
       </div>
       <selectData/>
-      <div class="col mt-3 px-0 mh-100 h5 fw-bold boxCs d-flex justify-content-center align-items-center" style="height: 90%; background: #a19e9e; max-width:2%;">
+      <div class="col mt-3 mb-0 px-0 h5 fw-bold boxCs d-flex justify-content-center align-items-center" style="background: #a19e9e; max-width:2%;">
             <span>▶</span>
       </div>
       <checkedData/>

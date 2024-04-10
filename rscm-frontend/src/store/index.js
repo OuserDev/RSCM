@@ -16,6 +16,7 @@ export default createStore({
       등록전데이터목록: [],
       등록전데이터목록인덱스: [],
       일괄모드인덱스: [],
+      선택한뷰데이터정보: null,
     };
   },
   getters: {},
@@ -97,6 +98,12 @@ export default createStore({
       state.등록전데이터목록 = [];
       state.등록전데이터목록인덱스 = [];
     },
+    등록전데이터목록초기화(state) {
+      state.등록전데이터목록 = [],
+      state.등록전데이터목록인덱스 = [],
+      state.선택한데이터 = null,
+      state.선택한데이터인덱스 = null;
+    },
     선택한데이터삭제(state) {
       state.수집데이터목록 = state.수집데이터목록.filter(function(item) {
         return item.id !== state.선택한데이터인덱스;
@@ -119,17 +126,21 @@ export default createStore({
       });
       state.일괄모드인덱스 = [];
     },
+    set뷰데이터선택(state, item) {
+      state.선택한뷰데이터정보 = item;
+    }
   },
   actions: {
     updateRegionData({ commit }, payload) {
       commit('UPDATE_REGION_DATA', payload);
+      console.log("updateRegionData", payload)
     },
+
     최종등록(context, viewData) {
       const requestData = {
         ...viewData,
         collectedDataIndex: context.state.등록전데이터목록인덱스
       };
-
       return axios
       //.post(`${process.env.VUE_APP_BACKEND_URL}/board/write`, viewData)
       .post(`https://19b4a6d6-f894-4563-a86c-2d6760ce7a2d.mock.pstmn.io/manage/apply`, requestData)
@@ -141,11 +152,12 @@ export default createStore({
         throw error;
       });
     },
+    
     get수집데이터목록(context) {
       // actions에서 commit을 사용할거면, context를 parameter로 받아야함
         axios
-        .get('범죄.json')
-        //.get(`${process.env.VUE_APP_BACKEND_URL}/board`)
+        //.get('범죄.json')
+        .get(`http://220.69.241.124:10000/api/collected-data`)
         .then(response => {
           // console.log(response.data);
           //console.log("데이터 목록 불러오기 성공");
@@ -156,19 +168,35 @@ export default createStore({
           throw error;
         });
       },
+
       get뷰데이터목록(context) {
         // actions에서 commit을 사용할거면, context를 parameter로 받아야함
-          axios
+          return axios
           .get('viewData.json')
           //.get(`${process.env.VUE_APP_BACKEND_URL}/board`)
           .then(response => {
-            // console.log(response.data);
+            //console.log(response.data);
             //console.log("데이터 목록 불러오기 성공");
             context.commit('set뷰데이터목록', response.data);
           })
           .catch(error => {
             console.error("데이터 목록 불러오기 실패");
             throw error;
+          });
+        },
+
+        get선택한데이터삭제(context, id) {
+          return new Promise((resolve, reject) => {
+            axios
+              .delete(`https://19b4a6d6-f894-4563-a86c-2d6760ce7a2d.mock.pstmn.io/list/${id}`)
+              .then(response => {
+                context.commit('선택한데이터삭제');
+                resolve(response);
+              })
+              .catch(error => {
+                console.log('못삭제했노');
+                reject(error);
+              });
           });
         },
   },

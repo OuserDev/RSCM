@@ -27,7 +27,7 @@
 
 <style>
     #map {
-        height: 100vh;
+        height: 87vh;
     }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
 </style>
 

@@ -9,7 +9,7 @@
       </router-link>
 
       <router-link to="/manage">
-        <div :class="['menu-item', menuItemClass(2)]" @click="setSideBarStatus(2)">
+        <div :class="['menu-item', menuItemClass(2)]" @click="setSideBarStatus(2), 등록전데이터상태변경();">
           <div class="p-3">
               <img class="img-fluid" src="@/assets/svg/admin.svg">
           </div>
@@ -31,9 +31,6 @@
 </template>
 
 <style scoped>
-  .sideBar {
-    height: 87vh;
-  }
   .menu-item:hover {
     background-color: #1d62bd;
   }
@@ -69,7 +66,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['setSideBarStatus', '대시보드상태초기화']),
+    ...mapMutations(['setSideBarStatus', '대시보드상태초기화', '등록전데이터목록초기화']),
 
   showNothingToast() {
     this.$nothingToast(); // 메서드 이름이 일치해야 함
@@ -77,6 +74,10 @@ export default {
 
   대시보드상태변경() {
     this.대시보드상태초기화();
+  },
+
+  등록전데이터상태변경() {
+    this.등록전데이터목록초기화();
   },
   },
 };

@@ -35,10 +35,16 @@ nav a.router-link-exact-active {
 
 
 <script>
+import { mapActions } from "vuex";
 import headerVue from "@/components/headerVue.vue";
 import sideBar from "@/components/sideBar.vue";
 export default {
   name: "App",
   components: { sideBar, headerVue },
+  created() {
+  },
+  methods : {
+    ...mapActions(["get뷰데이터목록"]),
+  }
 };
 </script>
