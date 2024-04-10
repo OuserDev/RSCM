@@ -1,5 +1,5 @@
 <template>
-    <div class="col container-fluid border border-secondary mx-0 px-0" style="max-width:30%; background: #ffffff;" v-if="leftToggleStatus == 1">
+    <div class="position-relative z-2 container-fluid border border-secondary mx-0 px-0" style="max-width:30%; background: #ffffff;" v-if="leftToggleStatus == 1">
 
       <div class="container-fluid p-3 border-bottom border-secondary" style="min-height:50%;">
         <div class="row m-4"> <!-- 현황 박스 -->

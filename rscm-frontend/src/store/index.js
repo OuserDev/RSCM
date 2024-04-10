@@ -6,7 +6,7 @@ export default createStore({
     return {
       leftToggleStatus: 0,
       rightToggleStatus: 0,
-      sideBarStatus: 2,
+      sideBarStatus: 1,
       manageBarStatus: 1,
       수집데이터목록: [],
       뷰데이터목록: [],
@@ -25,6 +25,10 @@ export default createStore({
     },
     setRightToggleStatus(state) {
       state.rightToggleStatus ^= 1;
+    },
+    대시보드상태초기화(state) {
+      state.leftToggleStatus = 0;
+      state.rightToggleStatus = 0;
     },
     setSideBarStatus(state, status) {
       state.sideBarStatus = status;
@@ -57,7 +61,7 @@ export default createStore({
         
         return item;
       }).sort((a, b) => b.id - a.id); // 뷰데이터목록을 id 기준으로 정렬
-      console.log(state.뷰데이터목록);
+      console.log("뷰데이터목록", state.뷰데이터목록);
     },
     set선택한데이터(state, { item, id }) {
       state.선택한데이터 = item;
