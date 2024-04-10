@@ -1,6 +1,14 @@
 <template>
   <div class="col px-0 position-relative z-1">
-    <div id="map"></div>
+    <div id="map">
+      <div class="mt-2 position-relative z-2 ">
+        <span class="p-1 h6" style="border-radius: 8px; background-color: #a19e9e; color:white; font-size:12px;">현재 지도 레벨 : {{ mapState.currentLevel }}</span>
+      </div>
+      <div class="mt-2 position-relative z-2">
+        <span class="ms-2 px-2 py-1 h5 btn" @click="축소()" style="background-color: #a19e9e; color:white;">-</span>
+        <span class="ms-1 p-2 px-2 py-1 h5 btn" @click="확대()" style="background-color: #a19e9e; color:white;">+</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -8,6 +16,9 @@
 #map {
   max-height: 87vh;
 }
+.tight-spacing {
+  letter-spacing: -1px;
+}  
 </style>
 
 <script>
@@ -26,7 +37,18 @@ export default {
       polygons: [],
       overlayMap: {}, // 오버레이를 관리할 객체
       regionsData: [], // 지역명과 각 지역의 위도, 경도를 저장할 배열
+      markers: [], // 마커를 저장할 배열
+      infoWindows: [] // 정보 창을 저장할 배열
     };
+  },
+  watch: {
+    '$store.state.선택한뷰데이터정보' : {
+      handler(newValue, oldValue) {
+        if (newValue) {
+          this.panTo(newValue.latitude, newValue.longitude);
+        }
+      },
+    },
   },
   created() {
     this.loadKakaoMapsAPI().then(() => {
@@ -39,7 +61,7 @@ export default {
   mounted() {
   },
   computed: {
-    ...mapState(["뷰데이터목록"]),
+    ...mapState(["뷰데이터목록", "선택한뷰데이터정보"]),
   },
   methods: {
     ...mapActions(["updateRegionData", "get뷰데이터목록"]),
@@ -60,7 +82,7 @@ export default {
     initializeMap() {
       const mapContainer = document.getElementById("map");
       const mapOption = {
-        center: new kakao.maps.LatLng(36.23, 131.13787), // 지도 중심 좌표
+        center: new kakao.maps.LatLng(36.23, 129.43787), // 지도 중심 좌표
         level: this.mapState.currentLevel,
       };
       this.map = new kakao.maps.Map(mapContainer, mapOption);
@@ -71,6 +93,17 @@ export default {
         this.mapState.previousLevel = this.mapState.currentLevel;
         this.mapState.currentLevel = level;
 
+        this.markers.forEach((marker, index) => {
+          if (this.mapState.currentLevel <= 10) {
+            marker.setMap(this.map); // 마커 표시
+            this.infoWindows[index].setMap(this.map);
+            //this.getBackgroundColor(this.뷰데이터목록[index].crime_type)
+          } else {
+            marker.setMap(null); // 마커 숨김
+            this.infoWindows[index].setMap(null);
+          }
+        });
+        
         /*
         if (
           (this.mapState.previousLevel <= 10 &&
@@ -88,18 +121,18 @@ export default {
       this.loadPolygonData(sidoJson
         //this.mapState.currentLevel <= 10 ? sidoJsonUp : sidoJson
         ); // 초기화 시 폴리곤 데이터 로드
-      console.log("loadPolygonData 함수 실행")
+      //console.log("loadPolygonData 함수 실행")
       this.updateRegionData(this.regionsData);
 
       this.get뷰데이터목록().then(() => {
         this.displayMarkers(this.뷰데이터목록);
-        console.log("displayMarkers 함수 실행", this.뷰데이터목록)
+        //console.log("displayMarkers 함수 실행", this.뷰데이터목록)
       });
     },
 
     loadPolygonData(data) {
       this.clearPolygonsAndOverlays();
-      console.log("clearPolygonsAndOverlays 함수 실행")
+      //console.log("clearPolygonsAndOverlays 함수 실행")
       data.features.forEach((feature, index) => {
         const coordinates = feature.geometry.coordinates;
         const name =
@@ -198,10 +231,11 @@ export default {
           position: position,
           content: content,
           xAnchor: 0.3,
-          yAnchor: 0.91, //
+          yAnchor: 0.91,
         });
 
         overlay.setMap(this.map); // 수정된 부분
+        console.log("overlay 함수 실행")
         this.overlayMap[name] = overlay; // 수정된 부분
       }
     },
@@ -226,31 +260,85 @@ export default {
 
     displayMarkers(viewDataList) {
       viewDataList.forEach(data => {
-        const markerPosition = new kakao.maps.LatLng(data.latitude+0.07, data.longitude+0.03); // 마커 위치 설정
+        const markerPosition = new kakao.maps.LatLng(data.latitude+0.04, data.longitude+0.006); // 마커 위치 설정
         const marker = new kakao.maps.Marker({
           position: markerPosition,
-          // 마커 이미지 설정 등의 옵션을 여기에 추가할 수 있음
         });
+        //marker.setMap(this.map); // 마커를 지도 위에 표시
+        this.markers.push(marker);
 
-        marker.setMap(this.map); // 마커를 지도 위에 표시
-
-        // 정보박스 내용 설정 (필요한 경우 데이터에 따라 커스텀)
-        const iwContent = `
-        <div class="bg-white border border-dark position-relative z-3">
-          <span class="fw-bold">${data.crime_type}</span>
-          <span class="h6">${data.datetime}</span>
-        </div>
-        `,
-        iwPosition = new kakao.maps.LatLng(36.370998, 129.23787);
-
-        const infowindow = new kakao.maps.InfoWindow({
-          position: iwPosition,
-          content: iwContent
+        const infowindow = new kakao.maps.CustomOverlay({
+          content:
+            `
+            <div id="overlay-${data.id}" class="custom-overlay">
+              <div class="text-start tight-spacing bg-white border border-secondary p-3 position-relative" style="z-index: 1000;">
+                <span class="text-start fw-bold tight-spacing text-dark" style="letter-spacing: -1px;">${data.region_name}</span>
+                <p class="mb-1" style="font-size: 12px;"><span class="text-dark fw-bold">${data.datetime}</span><span style="color: #696969;"> 경 발생 추정</span></p>
+                <span style="font-size: 12px; border-radius: 6px; background-color: #FF5C00;" class="text-white p-2">${data.crime_type}</span>
+                <span style="font-size: 12px; border-radius: 6px; background-color: #9E00FF; letter-spacing: -1px; " class="text-white p-2">${data.offender}</span>
+                <span style="font-size: 12px; border-radius: 6px; background-color: #5C4A4A; letter-spacing: -1px; " class="text-white p-2">${data.victim}</span>
+              </div>
+            </div>
+            `,
+          position: markerPosition,
+          xAnchor: 0.5,
+          yAnchor: 1.4,
         });
+        //infowindow.setMap(this.map) ; // 정보박스를 마커 위에 표시
+        this.infoWindows.push(infowindow);
 
-        infowindow.open(this.map, marker); // 정보박스를 마커 위에 표시
+        console.log("마커와 인포윈도우", this.markers)
+
       });
     },
+
+    panTo(latitude, longitude) {
+      if (this.선택한뷰데이터정보) {
+        this.map.setLevel(10);
+        const moveLatLon = new kakao.maps.LatLng(latitude, longitude+0.8);
+        this.map.panTo(moveLatLon);
+      }
+    },
+
+    축소() {
+      this.map.setLevel(this.map.getLevel() - 1);
+    },
+    확대() {
+      this.map.setLevel(this.map.getLevel() + 1);
+    },
+    
+    뷰데이터선택(item) {
+      this.set뷰데이터선택(item);
+      if (this.rightToggleStatus == 0) {
+        this.setRightToggleStatus(item);
+      }
+    }
+    /*
+      getBackgroundColor(crimeType) {
+      console.log("getBackgroundColor 함수 실행", crimeType)
+      switch (crimeType) {
+        case '절도':
+          return '#f44336'; // 빨간색
+        case '폭력':
+          return '#e91e63'; // 분홍색
+        case '사기':
+          return '#9c27b0'; // 보라색
+        case '살인':
+          return '#673ab7'; // 어두운 보라색
+        case '교통사고':
+          return '#3f51b5'; // 파란색
+        case '방화':
+          return '#009688'; // 틸색
+        case '성범죄':
+          return '#4caf50'; // 녹색
+        case '도박':
+          return '#ffeb3b'; // 노란색
+        default:
+          return '#607d8b'; // 청회색 - 기본 색상
+      }
+    }
+    */
   },
 };
 </script>
+

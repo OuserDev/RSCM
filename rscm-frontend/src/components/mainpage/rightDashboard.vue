@@ -2,15 +2,15 @@
     <div class="col container-fluid border border-secondary mx-0 px-0" style="max-width:25%; background: #ffffff;" v-if="rightToggleStatus == 1">
 
       <div class="container-fluid" style="min-height: 50%;">  <!-- 특정지역 현황 박스 -->
-        <div v-if="선택한뷰데이터정보" class="m-3 pt-3">
+        <div v-if="선택한뷰데이터정보" class="m-3 pt-2">
           <div class="row my-0 px-0 tight-spacing">
             <div class="col-7 ps-1 pe-0">
-              <img class="pb-4 img-fluid" src="@/assets/svg/siren.svg">
-              <span class="h3 ps-3 fw-bold text-dark">{{ this.선택한뷰데이터정보.region_name}}</span>
+              <img class="pb-3 img-fluid" src="@/assets/svg/siren.svg">
+              <span class="h2 ps-3 fw-bold text-dark">{{ this.선택한뷰데이터정보.region_name}}</span>
             </div>
-            <div class="text-end col-4 px-0 me-4">
-              <p class="pe-3 m-0 h6 fw-bold text-dark">범죄 발생 현황</p>
-              <p class="pe-3 m-0 h6 fw-bold" style="color: #b1afaf;">(날짜 기준 정렬)</p>
+            <div class="col px-0 me-4">
+              <p class="m-0 h4 fw-bold text-dark">범죄 발생 현황</p>
+              <p class="m-0 h6 fw-bold" style="color: #b1afaf;">(날짜 기준 정렬)</p>
             </div>
           </div>
         </div>
@@ -73,6 +73,7 @@
               <p class="fw-bold">{{ this.선택한뷰데이터정보.add_information }}</p>   
           </div>
         </div>
+        <div class="row border-bottom border-secondary"></div>
 
       </div>
 

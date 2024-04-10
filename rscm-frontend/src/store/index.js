@@ -21,6 +21,10 @@ export default createStore({
   },
   getters: {},
   mutations: {
+    set뷰데이터선택(state, item) {
+      state.선택한뷰데이터정보 = item;
+      //console.log(state.선택한뷰데이터정보);
+    },
     setLeftToggleStatus(state) {
       state.leftToggleStatus ^= 1;
     },
@@ -42,12 +46,33 @@ export default createStore({
       //console.log(state.수집데이터목록)
     },
     UPDATE_REGION_DATA(state, payload) {
-      state.지역명데이터 = payload;
-      //console.log(state.지역명데이터);
+      state.지역명데이터 = payload.map(item => {
+        switch (item.name) {
+          case '서울': item.name = '서울특별시'; break;
+          case '부산': item.name = '부산광역시'; break;
+          case '대구': item.name = '대구광역시'; break;
+          case '인천': item.name = '인천광역시'; break;
+          case '광주': item.name = '광주광역시'; break;
+          case '대전': item.name = '대전광역시'; break;
+          case '울산': item.name = '울산광역시'; break;
+          case '세종': item.name = '세종특별자치시'; break;
+          case '경기': item.name = '경기도'; break;
+          case '강원': item.name = '강원도'; break;
+          case '충북': item.name = '충청북도'; break;
+          case '충남': item.name = '충청남도'; break;
+          case '전북': item.name = '전라북도'; break;
+          case '전남': item.name = '전라남도'; break;
+          case '경북': item.name = '경상북도'; break;
+          case '경남': item.name = '경상남도'; break;
+          case '제주': item.name = '제주특별자치도'; break;
+          default: break;
+        }
+        return item;
+      });
     },
     set뷰데이터목록(state, 뷰데이터목록) {
       const 지역명데이터 = state.지역명데이터;
-      console.log(state.지역명데이터);
+      //console.log(state.지역명데이터);
       // 뷰데이터목록에 지역명데이터의 내용을 추가한다
       state.뷰데이터목록 = 뷰데이터목록.map(item => {
         // 뷰데이터의 region_code와 일치하는 지역명데이터 항목을 찾는다
@@ -61,7 +86,7 @@ export default createStore({
         }
         
         return item;
-      }).sort((a, b) => b.id - a.id); // 뷰데이터목록을 id 기준으로 정렬
+      }).sort((a, b) => new Date(b.datetime) - new Date(a.datetime)); // 뷰데이터목록을 id 기준으로 정렬
       console.log("뷰데이터목록", state.뷰데이터목록);
     },
     set선택한데이터(state, { item, id }) {
@@ -126,14 +151,11 @@ export default createStore({
       });
       state.일괄모드인덱스 = [];
     },
-    set뷰데이터선택(state, item) {
-      state.선택한뷰데이터정보 = item;
-    }
   },
   actions: {
     updateRegionData({ commit }, payload) {
       commit('UPDATE_REGION_DATA', payload);
-      console.log("updateRegionData", payload)
+      //console.log("updateRegionData", payload)
     },
 
     최종등록(context, viewData) {

@@ -5,13 +5,18 @@
         <div class="row m-4"> <!-- 현황 박스 -->
           <p class="my-0 px-0 text-start tight-spacing">
             <img class="mb-3" src="@/assets/svg/warning.svg">
-            <span class="h3 px-3 fw-bold text-dark">실시간 범죄 발생 현황</span>
+            <span class="h2 px-3 fw-bold text-dark">실시간 범죄 발생 현황</span>
             <span class="h6 fw-bold" style="color: #b1afaf;">(최근 7일 이내 기준)</span>
           </p>
         </div>
         <div class="row border-bottom my-4 border-secondary"></div>
         <div class="row text-start px-4">
-            <p @click="뷰데이터선택(item)" v-for="item in 뷰데이터목록" :key="item.id" class="hoverz h6 px-3 fw-bold">[{{ item['region_name'] }}] {{ item['crime_type'] }} <span class="" style="color: #b1afaf; font-size:12px;">{{ item['datetime'] }}</span></p>
+            <p @click="뷰데이터선택(item)" v-for="item in 뷰데이터목록" :key="item.id" class="row hoverz h6 px-3 fw-bold">
+              <div class="col-1 px-0">▸</div>
+              <div class="col" style="color: #003478;">[{{ item['region_name'] }}]</div>
+              <div class="col px-0">{{ item['crime_type'] }}</div>
+              <div class="col ps-3" style="color: #b1afaf; font-size:12px;">{{ item['datetime'] }}</div>
+            </p>
         </div>
       </div>
 
@@ -37,7 +42,7 @@
 
 .hoverz:hover {
   color: #ffffff;
-  background-color: #003478;
+  background-color: #5175a3;
 }
 
 </style>

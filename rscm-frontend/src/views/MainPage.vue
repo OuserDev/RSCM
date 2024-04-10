@@ -11,10 +11,10 @@
 	</button>
 
 	<!-- 중앙 지도 -->
-	<rscmMap/>
+	<rscmMap ref="rscmMap"></rscmMap>
 
 	<!-- 오른쪽 대시보드 토글바 -->
-	<button class="p-0 mb-0 border-0 fw-bold h5" @click="setRightToggleStatus" style="background: #b7b4b4; max-width:2%;">
+	<button class="p-0 mb-0 border-0 fw-bold h5" @click="setRightToggleStatus" style="background: #a19e9e; max-width:2%;">
 		<span v-if="rightToggleStatus == 0">&lt;&lt;</span>
 		<span v-if="rightToggleStatus == 1">&gt;&gt;</span>
 	</button>
