@@ -1,5 +1,5 @@
 <template>
-    <div class="col-4 border border-secondary border-start-0 mt-3 px-0 boxCs" style="">
+    <div class="scrollable-container col-4 border border-secondary border-start-0 mt-3 px-0 boxCs" style="">
         <div class="row m-3">
           <p class="my-0 px-0 text-start h3 fw-bold textCs">Selected Data</p>
         </div>
@@ -23,8 +23,8 @@
           </p>
         </div>
 
-        <div class="row tight-spacing2 mx-4 mt-4">
-          <div class="col p-0 btn boxCs2 py-3">
+        <div class="row tight-spacing2 mx-4 mt-4 mb-3">
+          <div class="col p-0 btn boxCs2 py-3 ">
             <span @click="등록할데이터선택()" class="fw-bold white-text h4">Check - 등록 단계로 전송</span>
           </div>
           <div class="col-2 p-0 btn bg-danger py-3 ms-2">
@@ -35,6 +35,10 @@
 </template>
 
 <style scoped>
+.scrollable-container {
+  max-height: 79vh; /* 이 값은 부모 컴포넌트의 높이나 원하는 최대 높이에 따라 조정하세요. */
+  overflow-y: auto; /* 세로 방향으로 내용이 초과할 경우 스크롤을 활성화합니다. */
+}
 .white-text {
   color: #FFFFFF; /* 글자색 하얀색 */
 }

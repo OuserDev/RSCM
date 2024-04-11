@@ -1,14 +1,16 @@
 <template>
-    <div class="col border border-secondary border-start-0 me-4 mt-3 px-0 boxCs" style="">
+    <div class="scrollable-container col border border-secondary border-start-0 me-4 mt-3 px-0 boxCs">
         <div class="row m-3">
           <p class="my-0 px-0 text-start h3 fw-bold textCs">Checked List</p>
         </div>
 
         <div class="text-start row mx-4 my-0 tight-spacing2 textCs h6" v-for="item in 등록전데이터목록" :key="item.id">
-          [{{ item.id }}] {{ item['keyword'] }}
-          <img @click="등록취소(item.id)" class="ms-3 mb-0" src="@/assets/svg/cancel-circle.svg" style="max-width:9%;">
-          <!-- <img class="mb-1" src="@/assets/svg/download.svg" style="max-width:9%;">-->
-          <!-- <img class="mb-1" src="@/assets/svg/copy.svg" style="max-width:9%;">-->
+          <p class="d-flex align-items-center h-100">
+            [{{ item.id }}] {{ item['keyword'] }}
+            <img @click="등록취소(item.id)" class="ms-1 mb-0" src="@/assets/svg/cancel-circle.svg" style="max-width:3%;">
+            <!-- <img class="mb-1" src="@/assets/svg/download.svg" style="max-width:9%;">-->
+            <!-- <img class="mb-1" src="@/assets/svg/copy.svg" style="max-width:9%;">-->
+          </p>
         </div>
 
         <div class="row border-bottom m-4 border-secondary"></div>
@@ -54,7 +56,7 @@
               <div class="form-group row py-1">
                 <label for="inputType" class="col-sm-5 col-form-label">범죄 유형</label>
                 <div class="col-sm-7">
-                  <input type="text" class="form-control" v-model="crime_type" id="crime_type" placeholder="방화 및 절도">
+                  <input type="text" class="form-control" v-model="crimeType" id="crimeType" placeholder="방화 및 절도">
                 </div>
               </div>
               <div class="form-group row py-1">
@@ -79,11 +81,11 @@
                 <label for="inputDetails" class="col-sm-6 col-form-label">공개 가능한 부가 정보</label>
               </div>
               
-              <textarea class="form-control" v-model="add_information" id="add_information" rows="3" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit..."></textarea>
+              <textarea class="form-control" v-model="addInformation" id="addInformation" rows="3" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit..."></textarea>
               
               <div class="d-flex justify-content-center align-items-center row tight-spacing2 mx-4 mt-4">
                 <div class="col p-0 py-1 form-group row">
-                  <button type="submit" class="btn boxCs2 btn white-text p-2 pt-3"><span class="h4 fw-bold">Apply - 최종 등록</span>
+                  <button type="submit" class="btn boxCs2 btn white-text p-2 pt-3 mb-3"><span class="h4 fw-bold">Apply - 최종 등록</span>
                     <img class="ms-3 mb-1 upload" src="@/assets/svg/upload.svg">
                   </button>
                 </div>
@@ -97,6 +99,10 @@
 </template>
 
 <style scoped>
+.scrollable-container {
+  max-height: 79vh; /* 이 값은 부모 컴포넌트의 높이나 원하는 최대 높이에 따라 조정하세요. */
+  overflow-y: auto; /* 세로 방향으로 내용이 초과할 경우 스크롤을 활성화합니다. */
+}
 .upload {
   max-width: 9%;
 }
@@ -139,11 +145,11 @@ export default {
     return {
       region: '',
       datetime: '',
-      crime_type: '',
+      crimeType: '',
       location: '',
       offender: '',
       victim: '',
-      add_information: '',
+      addInformation: '',
     };
   },
   setup() {
@@ -215,22 +221,48 @@ export default {
     },
 
     등록완료() {
+      const regionCodes = {
+        '서울특별시': 1,
+        '부산광역시': 2,
+        '대구광역시': 3,
+        '인천광역시': 4,
+        '광주광역시': 5,
+        '대전광역시': 6,
+        '울산광역시': 7,
+        '세종시': 8,
+        '경기도': 9,
+        '강원도': 10,
+        '충청북도': 11,
+        '충청남도': 12,
+        '전라북도': 13,
+        '전라남도': 14,
+        '경상북도': 15,
+        '경상남도': 16,
+        '제주도': 17,
+      };
+
       if (this.등록전데이터목록인덱스.length === 0) {
         this.errorToast1();
         return;
       }
-      if (this.region === '' || this.datetime === '' || this.crime_type === '' || this.location === '' || this.offender === '' || this.victim === '' || this.add_information === '') {
+      if (this.region === '' || this.datetime === '' || this.crimeType === '' || this.location === '' || this.offender === '' || this.victim === '' || this.addInformation === '') {
         this.errorToast2();
         return;
       }
+
+      const regionCode = regionCodes[this.region]; // region 이름으로부터 regionCode를 얻는다.
+      if (!regionCode) {
+        return;
+      }
+
       const viewData = {
-        region: this.region,
+        regionCode: regionCode,
         datetime: this.datetime,
-        crime_type: this.crime_type,
+        crimeType: this.crimeType,
         location: this.location,
         offender: this.offender,
         victim: this.victim,
-        add_information: this.add_information,
+        addInformation: this.addInformation,
       };
       //console.log(viewData);
       this.최종등록(viewData)
@@ -239,11 +271,11 @@ export default {
             this.successToast();
             this.region = '',
             this.datetime = '',
-            this.crime_type = '',
+            this.crimeType = '',
             this.location = '',
             this.offender = '',
             this.victim = '',
-            this.add_information = ''
+            this.addInformation = ''
         })
         .catch(error => {
           //(error);

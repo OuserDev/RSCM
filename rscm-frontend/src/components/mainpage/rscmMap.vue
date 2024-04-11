@@ -38,7 +38,8 @@ export default {
       overlayMap: {}, // 오버레이를 관리할 객체
       regionsData: [], // 지역명과 각 지역의 위도, 경도를 저장할 배열
       markers: [], // 마커를 저장할 배열
-      infoWindows: [] // 정보 창을 저장할 배열
+      infoWindows: [], // 정보 창을 저장할 배열
+      overlays : [],
     };
   },
   watch: {
@@ -61,7 +62,7 @@ export default {
   mounted() {
   },
   computed: {
-    ...mapState(["뷰데이터목록", "선택한뷰데이터정보", "rightToggleStatus", "leftToggleStatus"]),
+    ...mapState(["뷰데이터목록", "선택한뷰데이터정보", "rightToggleStatus", "leftToggleStatus", "뷰데이터목록중지역명해당"]),
   },
   methods: {
     ...mapActions(["updateRegionData", "get뷰데이터목록"]),
@@ -103,17 +104,23 @@ export default {
             // 예를 들어, 선택된 뷰데이터 정보를 상태 관리에 반영하는 메소드 호출
             this.뷰데이터선택(marker.data);
           });
-
             marker.setMap(this.map); // 마커 표시
             this.infoWindows[index].setMap(this.map);
-            //this.getBackgroundColor(this.뷰데이터목록[index].crime_type)
+            //this.getBackgroundColor(this.뷰데이터목록[index].crimeType)
           } else {
             marker.setMap(null); // 마커 숨김
             this.infoWindows[index].setMap(null);
           }
         });
 
-
+        this.overlays.forEach((overlays, index) => {
+        if (this.mapState.currentLevel <= 11) {
+          //this.overlays[index].setMap(null);
+          this.overlays[index].setMap(this.map);
+        } else {
+          this.overlays[index].setMap(this.map);
+        }
+      });
         /*
         if (
           (this.mapState.previousLevel <= 10 &&
@@ -127,7 +134,6 @@ export default {
         }
         */
       });
-
       this.loadPolygonData(sidoJson
         //this.mapState.currentLevel <= 10 ? sidoJsonUp : sidoJson
         ); // 초기화 시 폴리곤 데이터 로드
@@ -142,6 +148,7 @@ export default {
 
     loadPolygonData(data) {
       this.clearPolygonsAndOverlays();
+      
       //console.log("clearPolygonsAndOverlays 함수 실행")
       data.features.forEach((feature, index) => {
         const coordinates = feature.geometry.coordinates;
@@ -201,13 +208,13 @@ export default {
     },
 
     overlaySet(name, points) {
-      if (!this.overlayMap[name]) {
+      if (!this.overlayMap[name]) { // 설명: 이미 오버레이가 있는 경우, 중복 생성 방지
         let position = this.centerMap(points);
 
         // 위치를 조정하고 싶은 여러 지역들의 조정 값을 매핑하는 객체
         const locationAdjustments = {
           서울: { lat: -0.02, lng: -0.03 },
-          세종: { lat: -0.04, lng: 0 },
+          세종: { lat: +0.05, lng: -0.05 },
           대전: { lat: -0.02, lng: -0.03 },
           인천: { lat: -0.01, lng: -0.01 },
           경기: { lat: 0, lng: +0.13 },
@@ -235,8 +242,21 @@ export default {
           latitude: position.getLat(),
           longitude: position.getLng()
         });
+        
+        console.log("뷰데이터목록중지역명해당", this.뷰데이터목록중지역명해당)
+        // 뷰데이터목록중지역명해당에 포함되는 지역인지 확인
+        const isSpecialRegion = Object.values(this.뷰데이터목록중지역명해당).includes(name);
 
-        const content = `<div class="position-relative z-2" style="font-weight:bold; color: #003478; font-size:14px;">${name}</div>`;
+        let content;
+          if (isSpecialRegion) {
+            // 특별 처리가 필요한 지역에 대한 content 디자인
+            content = `<div class="position-relative" style="font-weight:bold; color: #FFFB89; width:55px; height:55px; font-size:16px; border-width:5px; background-color:#003478; border-radius: 50%">
+              <p class="justify-content-center d-flex align-items-center h-100">${name}</p>
+              </div>`;
+          } else {
+            // 기본 content 디자인
+            content = `<div class="position-relative z-1" style="font-weight:bold; color: #003478; font-size:14px;">${name}</div>`;
+          }
         const overlay = new kakao.maps.CustomOverlay({
           position: position,
           content: content,
@@ -245,8 +265,8 @@ export default {
         });
 
         overlay.setMap(this.map); // 수정된 부분
-        console.log("overlay 함수 실행")
-        this.overlayMap[name] = overlay; // 수정된 부분
+        this.overlays.push(overlay); 
+        this.overlayMap[name] = overlay;
       }
     },
 
@@ -270,7 +290,7 @@ export default {
 
     displayMarkers(viewDataList) {
       viewDataList.forEach(data => {
-        const markerPosition = new kakao.maps.LatLng(data.latitude+0.04, data.longitude+0.006); // 마커 위치 설정
+        const markerPosition = new kakao.maps.LatLng(data.latitude+0.13, data.longitude+0.035); // 마커 위치 설정
         const marker = new kakao.maps.Marker({
           position: markerPosition,
           clickable: true,
@@ -284,10 +304,10 @@ export default {
           content:
             `
             <div id="overlay-${data.id}" class="custom-overlay">
-              <div class="text-start tight-spacing bg-white border border-secondary p-3 position-relative" style="z-index: 1000;">
+              <div class="text-start tight-spacing bg-white border border-secondary p-3 position-relative" style="z-index: 1000; max-width: 250px;">
                 <span class="text-start fw-bold tight-spacing text-dark" style="letter-spacing: -1px;">${data.region_name}</span>
                 <p class="mb-1" style="font-size: 12px;"><span class="text-dark fw-bold">${data.datetime}</span><span style="color: #696969;"> 경 발생 추정</span></p>
-                <span style="font-size: 12px; border-radius: 6px; background-color: #FF5C00;" class="text-white p-2">${data.crime_type}</span>
+                <span style="font-size: 12px; border-radius: 6px; background-color: #FF5C00;" class="text-white p-2">${data.crimeType}</span>
                 <span style="font-size: 12px; border-radius: 6px; background-color: #9E00FF; letter-spacing: -1px; " class="text-white p-2">${data.offender}</span>
                 <span style="font-size: 12px; border-radius: 6px; background-color: #5C4A4A; letter-spacing: -1px; " class="text-white p-2">${data.victim}</span>
               </div>

@@ -1,7 +1,7 @@
 <template>
     <div class="position-relative z-2 container-fluid border border-secondary mx-0 px-0" style="max-width:30%; background: #ffffff;" v-if="leftToggleStatus == 1">
 
-      <div class="container-fluid p-3 border-bottom border-secondary" style="min-height:70%;">
+      <div class="container-fluid p-3 border-bottom border-secondary" style="min-height:80%;">
         <div class="row mx-4 mt-4 mb-1"> <!-- 현황 박스 -->
           <p class="my-0 px-0 text-start tight-spacing">
             <img class="mb-3" src="@/assets/svg/warning.svg">
@@ -32,13 +32,13 @@
             <p @click="뷰데이터선택(item)" v-for="item in 뷰데이터목록" :key="item.id" class="row hoverz h6 px-3 fw-bold my-2">
               <div class="col-1 px-0">▸</div>
               <div class="col" style="color: #003478;">[{{ item['region_name'] }}]</div>
-              <div class="col px-0">{{ item['crime_type'] }}</div>
+              <div class="col px-0">{{ item['crimeType'] }}</div>
               <div class="col ps-3" style="color: #b1afaf; font-size:12px;">{{ item['datetime'] }}</div>
             </p>
         </div>
       </div>
 
-      <div class="container-fluid p-3 bg-light" style="min-height: 30%;">
+      <div class="container-fluid p-3 bg-light" style="min-height: 20%;">
         <div class="row m-4"> <!-- 통계 박스 -->
           <p class="my-0 px-0 text-start tight-spacing">
             <img class="mb-3" src="@/assets/svg/pie-chart.svg">

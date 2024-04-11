@@ -1,8 +1,8 @@
 <template>
-    <div class="col container-fluid border border-secondary mx-0 px-0" style="max-width:25%; background: #ffffff;" v-if="rightToggleStatus == 1">
+    <div class="col container-fluid border border-secondary mx-0 px-0 scrollable-container" style="max-width:25%; background: #ffffff;" v-if="rightToggleStatus == 1">
 
       <div class="container-fluid" style="min-height: 50%;">  <!-- 특정지역 현황 박스 -->
-        <div v-if="선택한뷰데이터정보" class="m-3 pt-2">
+        <div v-if="this.선택한뷰데이터정보" class="m-3 pt-2">
           <div class="row my-0 px-0 tight-spacing">
             <div class="col-7 ps-1 pe-0">
               <img class="pb-3 img-fluid" src="@/assets/svg/siren.svg">
@@ -14,7 +14,7 @@
             </div>
           </div>
         </div>
-        <div v-if="!(선택한뷰데이터정보)" class="m-3">
+        <div v-if="!(this.선택한뷰데이터정보)" class="m-3">
           <div class="row my-0 px-0">
             <div class="ps-1 pe-0">
               <span class="h5 fw-bold text-dark">정보를 선택해주세요.</span>
@@ -24,35 +24,36 @@
         <div class="row border-bottom border-secondary"></div>
 
         <div class="row ms-3" v-if="this.선택한뷰데이터정보" style="max-width: 93%;">
-          <div class="container mt-2 tight-spacing textCs text-start">
-              <div class="ps-4 form-group row py-1 mt-3">
+          <div v-for="(data, index) in this.선택한지역뷰데이터목록" :key="index" class="container mt-4 tight-spacing textCs text-start">
+            <span style="color: #7F7F7F; font-size:40px; color: #003478;" class="fw-bold">#0{{ data.order }}</span> 
+            <div class="ps-4 form-group row py-1">
                 <div class="col-sm-5 py-2 fw-bold"><span style="color: #7F7F7F; font-size:14px; font-size:14px;">발생 지역</span></div>
                 <div class="col-sm-6 py-2 h5 fw-bold text-dark mb-0">
-                  {{ this.선택한뷰데이터정보.region_name}}
+                  {{ data.region_name}}
                 </div>
               </div>
               <div class="ps-4 form-group row py-1">
                 <div for="inputDate" class="col-sm-5 py-2 fw-bold"><span style="color: #7F7F7F; font-size:14px;">추정 날짜 및 시각</span></div>
                 <div class="col-sm-6 py-2 h5 fw-bold text-dark mb-0">
-                  {{ this.선택한뷰데이터정보.datetime }}
+                  {{ data.datetime }}
                 </div>
               </div>
               <div class="ps-4 form-group row py-1">
                 <div for="inputType" class="col-sm-5 py-2 fw-bold"><span style="color: #7F7F7F; font-size:14px;">범죄 유형</span></div>
                 <div class="col-sm-6 py-2 h5 fw-bold text-dark mb-0">
-                  {{ this.선택한뷰데이터정보.crime_type }}
+                  {{ data.crimeType }}
                 </div>
               </div>
               <div class="ps-4  form-group row py-1">
                 <div for="inputLocation" class="col-sm-5 py-2 fw-bold"><span style="color: #7F7F7F; font-size:14px;">구체적 발생 장소</span></div>
                 <div class="col-sm-6 py-2 h5 fw-bold text-dark mb-0">
-                  {{ this.선택한뷰데이터정보.location }} 
+                  {{ data.location }} 
                 </div>
               </div>
               <div class="ps-4  form-group row py-1">
                 <div for="inputAge" class="col-sm-5 py-2 fw-bold" ><span style="color: #7F7F7F; font-size:14px;">가해자 또는 가해 규모</span></div>
                 <div class="col-sm-5 py-2 h5 fw-bold text-dark mb-0">
-                  {{ this.선택한뷰데이터정보.offender }}
+                  {{ data.offender }}
                 </div>
               </div>
               <div class="ps-4 form-group row py-1">
@@ -64,10 +65,10 @@
               <div class="form-group row py-1 mt-3">
                 <div for="inputDetails" class="col-sm-6 py-0 mb-0 h5 text-start"><span style="color: #003478; font-weight: bolder;">공개 가능한 부가 정보</span></div>
               </div>    
-              <p class="mb-4">{{ this.선택한뷰데이터정보.add_information }}</p>   
+              <p class="mb-4">{{ data.addInformation }}</p>   
+              <div class="row border-bottom border-secondary"></div>
           </div>
         </div>
-        <div class="row border-bottom border-secondary"></div>
 
       </div>
 
@@ -78,23 +79,30 @@
 .tight-spacing {
   letter-spacing: -2px;
 }
+
+.scrollable-container {
+  max-height: 87vh; /* 이 값은 부모 컴포넌트의 높이나 원하는 최대 높이에 따라 조정하세요. */
+  overflow-y: auto; /* 세로 방향으로 내용이 초과할 경우 스크롤을 활성화합니다. */
+}
 </style>
 
 <script>
-import { mapState,mapMutations } from "vuex";
+import { mapState,mapMutations,mapGetters } from "vuex";
 
 export default {
   name: "rightDashboard",
-  components: {},
+  components: {}, 
   data() {
     return {};
   },
   setup() {},
   created() {},
-  mounted() {},
+  mounted() {
+  },
   unmounted() {},
   computed: {
     ...mapState(["rightToggleStatus", "선택한뷰데이터정보"]),
+    ...mapGetters(['선택한지역뷰데이터목록'])
     },
   methods: {
     ...mapMutations(['setRightToggleStatus']),
