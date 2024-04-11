@@ -2,11 +2,11 @@
   <div class="col px-0 position-relative z-1">
     <div id="map">
       <div class="mt-2 position-relative z-2 ">
-        <span class="p-1 h6" style="border-radius: 8px; background-color: #a19e9e; color:white; font-size:12px;">현재 지도 레벨 : {{ mapState.currentLevel }}</span>
+        <span class="fw-bold p-2 h6" style="border-radius: 8px; background-color: #4A4A4A; color:white; font-size:13px;">현재 지도 레벨 : {{ mapState.currentLevel }}</span>
       </div>
       <div class="mt-2 position-relative z-2">
-        <span class="ms-2 px-2 py-1 h5 btn" @click="축소()" style="background-color: #a19e9e; color:white;">-</span>
-        <span class="ms-1 p-2 px-2 py-1 h5 btn" @click="확대()" style="background-color: #a19e9e; color:white;">+</span>
+        <span class="fw-bold ms-2 px-2 py-1 h5 btn" @click="축소()" style="background-color: #4A4A4A; color:white;">-</span>
+        <span class="fw-bold ms-1 p-2 px-2 py-1 h5 btn" @click="확대()" style="background-color: #4A4A4A; color:white;">+</span>
       </div>
     </div>
   </div>
@@ -31,7 +31,7 @@ export default {
     return {
       map: null, // 지도 객체
       mapState: {
-        currentLevel: 12,
+        currentLevel: 13,
         previousLevel: null,
       },
       polygons: [],
@@ -61,11 +61,11 @@ export default {
   mounted() {
   },
   computed: {
-    ...mapState(["뷰데이터목록", "선택한뷰데이터정보"]),
+    ...mapState(["뷰데이터목록", "선택한뷰데이터정보", "rightToggleStatus", "leftToggleStatus"]),
   },
   methods: {
     ...mapActions(["updateRegionData", "get뷰데이터목록"]),
-    ...mapMutations(['setLeftToggleStatus']),
+    ...mapMutations(['setLeftToggleStatus', 'set뷰데이터선택', 'setRightToggleStatus']),
 
     // API 호출
     loadKakaoMapsAPI() {
@@ -82,7 +82,7 @@ export default {
     initializeMap() {
       const mapContainer = document.getElementById("map");
       const mapOption = {
-        center: new kakao.maps.LatLng(36.23, 129.43787), // 지도 중심 좌표
+        center: new kakao.maps.LatLng(35.73, 130.93787), // 지도 중심 좌표
         level: this.mapState.currentLevel,
       };
       this.map = new kakao.maps.Map(mapContainer, mapOption);
@@ -94,7 +94,16 @@ export default {
         this.mapState.currentLevel = level;
 
         this.markers.forEach((marker, index) => {
-          if (this.mapState.currentLevel <= 10) {
+          if (this.mapState.currentLevel <= 11) {
+
+            // 클릭 이벤트 리스너에 뷰데이터 정보를 사용하는 로직 추가
+          kakao.maps.event.addListener(marker, 'click', () => {
+            // 여기에서 마커의 data 속성을 사용하여 뷰데이터 정보에 접근한다.
+            console.log("마커 클릭", marker.data);
+            // 예를 들어, 선택된 뷰데이터 정보를 상태 관리에 반영하는 메소드 호출
+            this.뷰데이터선택(marker.data);
+          });
+
             marker.setMap(this.map); // 마커 표시
             this.infoWindows[index].setMap(this.map);
             //this.getBackgroundColor(this.뷰데이터목록[index].crime_type)
@@ -103,7 +112,8 @@ export default {
             this.infoWindows[index].setMap(null);
           }
         });
-        
+
+
         /*
         if (
           (this.mapState.previousLevel <= 10 &&
@@ -263,10 +273,13 @@ export default {
         const markerPosition = new kakao.maps.LatLng(data.latitude+0.04, data.longitude+0.006); // 마커 위치 설정
         const marker = new kakao.maps.Marker({
           position: markerPosition,
+          clickable: true,
         });
+        marker.data = data;
+        //console.log("마커 생성", marker.data)
         //marker.setMap(this.map); // 마커를 지도 위에 표시
         this.markers.push(marker);
-
+        
         const infowindow = new kakao.maps.CustomOverlay({
           content:
             `
@@ -286,16 +299,14 @@ export default {
         });
         //infowindow.setMap(this.map) ; // 정보박스를 마커 위에 표시
         this.infoWindows.push(infowindow);
-
-        console.log("마커와 인포윈도우", this.markers)
-
+        //console.log("마커와 인포윈도우", infowindow.dataId)
       });
     },
 
     panTo(latitude, longitude) {
       if (this.선택한뷰데이터정보) {
-        this.map.setLevel(10);
-        const moveLatLon = new kakao.maps.LatLng(latitude, longitude+0.8);
+        this.map.setLevel(11);
+        const moveLatLon = new kakao.maps.LatLng(latitude, longitude+1.6);
         this.map.panTo(moveLatLon);
       }
     },
@@ -309,8 +320,12 @@ export default {
     
     뷰데이터선택(item) {
       this.set뷰데이터선택(item);
+      console.log("뷰데이터선택 함수 실행", item)
       if (this.rightToggleStatus == 0) {
         this.setRightToggleStatus(item);
+      }
+      if (this.leftToggleStatus == 0) {
+        this.setLeftToggleStatus();
       }
     }
     /*

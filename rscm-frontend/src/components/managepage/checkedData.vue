@@ -84,7 +84,7 @@
               <div class="d-flex justify-content-center align-items-center row tight-spacing2 mx-4 mt-4">
                 <div class="col p-0 py-1 form-group row">
                   <button type="submit" class="btn boxCs2 btn white-text p-2 pt-3"><span class="h4 fw-bold">Apply - 최종 등록</span>
-                    <img class="ms-3 mb-1" src="@/assets/svg/upload.svg" style="max-width: 9%;">
+                    <img class="ms-3 mb-1 upload" src="@/assets/svg/upload.svg">
                   </button>
                 </div>
               </div>
@@ -97,6 +97,9 @@
 </template>
 
 <style scoped>
+.upload {
+  max-width: 9%;
+}
 .white-text {
   color: #FFFFFF; /* 글자색 하얀색 */
 }

@@ -23,54 +23,48 @@
         </div>
         <div class="row border-bottom border-secondary"></div>
 
-        <div class="row ms-3" v-if="this.선택한뷰데이터정보" style="max-width: 93%; heg">
+        <div class="row ms-3" v-if="this.선택한뷰데이터정보" style="max-width: 93%;">
           <div class="container mt-2 tight-spacing textCs text-start">
-              <div class="form-group row py-1">
-                <div class="col-sm-5 py-2"><span style="color: #7F7F7F; font-size:14px; font-size:14px;">발생 지역</span></div>
-                <div class="col-sm-1"></div>
-                <div class="col-sm-5 py-2 fw-bold">
+              <div class="ps-4 form-group row py-1 mt-3">
+                <div class="col-sm-5 py-2 fw-bold"><span style="color: #7F7F7F; font-size:14px; font-size:14px;">발생 지역</span></div>
+                <div class="col-sm-6 py-2 h5 fw-bold text-dark mb-0">
                   {{ this.선택한뷰데이터정보.region_name}}
                 </div>
               </div>
-              <div class="form-group row py-1">
-                <div for="inputDate" class="col-sm-5 py-2"><span style="color: #7F7F7F; font-size:14px;">추정 날짜 및 시각</span></div>
-                <div class="col-sm-1"></div>
-                <div class="col-sm-5 py-2 fw-bold">
+              <div class="ps-4 form-group row py-1">
+                <div for="inputDate" class="col-sm-5 py-2 fw-bold"><span style="color: #7F7F7F; font-size:14px;">추정 날짜 및 시각</span></div>
+                <div class="col-sm-6 py-2 h5 fw-bold text-dark mb-0">
                   {{ this.선택한뷰데이터정보.datetime }}
                 </div>
               </div>
-              <div class="form-group row py-1">
-                <div for="inputType" class="col-sm-5 py-2"><span style="color: #7F7F7F; font-size:14px;">범죄 유형</span></div>
-                <div class="col-sm-1"></div>
-                <div class="col-sm-5 py-2 fw-bold">
+              <div class="ps-4 form-group row py-1">
+                <div for="inputType" class="col-sm-5 py-2 fw-bold"><span style="color: #7F7F7F; font-size:14px;">범죄 유형</span></div>
+                <div class="col-sm-6 py-2 h5 fw-bold text-dark mb-0">
                   {{ this.선택한뷰데이터정보.crime_type }}
                 </div>
               </div>
-              <div class="form-group row py-1">
-                <div for="inputLocation" class="col-sm-5 py-2"><span style="color: #7F7F7F; font-size:14px;">구체적 발생 장소</span></div>
-                <div class="col-sm-1"></div>
-                <div class="col-sm-5 py-2 fw-bold">
+              <div class="ps-4  form-group row py-1">
+                <div for="inputLocation" class="col-sm-5 py-2 fw-bold"><span style="color: #7F7F7F; font-size:14px;">구체적 발생 장소</span></div>
+                <div class="col-sm-6 py-2 h5 fw-bold text-dark mb-0">
                   {{ this.선택한뷰데이터정보.location }} 
                 </div>
               </div>
-              <div class="form-group row py-1">
-                <div for="inputAge" class="col-sm-5 py-2"><span style="color: #7F7F7F; font-size:14px;">가해자 또는 가해 규모</span></div>
-                <div class="col-sm-1"></div>
-                <div class="col-sm-5 py-2 fw-bold">
+              <div class="ps-4  form-group row py-1">
+                <div for="inputAge" class="col-sm-5 py-2 fw-bold" ><span style="color: #7F7F7F; font-size:14px;">가해자 또는 가해 규모</span></div>
+                <div class="col-sm-5 py-2 h5 fw-bold text-dark mb-0">
                   {{ this.선택한뷰데이터정보.offender }}
                 </div>
               </div>
-              <div class="form-group row py-1">
-                <div for="inputCount" class="col-sm-5 py-2"><span style="color: #7F7F7F; font-size:14px;">피해자 또는<br>피해액, 피해 규모</span></div>
-                <div class="col-sm-1"></div>
-                <div class="col-sm-5 py-2 fw-bold">
-                  {{ this.선택한뷰데이터정보.victim }} 
+              <div class="ps-4 form-group row py-1">
+                <div for="inputCount" class="col-sm-5 py-2 fw-bold"><span style="color: #7F7F7F; font-size:14px;">피해자 또는<br>피해액, 피해 규모</span></div>
+                <div class="col-sm-6 py-2">
+                  <span class="d-flex align-items-center h-100 h5 fw-bold text-dark mb-0">{{ this.선택한뷰데이터정보.victim }}</span>
                 </div>
               </div>
-              <div class="form-group row py-1">
-                <div for="inputDetails" class="col-sm-6 py-2 mx-auto"><span style="color: #7F7F7F; font-size:14px;">공개 가능한 부가 정보</span></div>
+              <div class="form-group row py-1 mt-3">
+                <div for="inputDetails" class="col-sm-6 py-0 mb-0 h5 text-start"><span style="color: #003478; font-weight: bolder;">공개 가능한 부가 정보</span></div>
               </div>    
-              <p class="fw-bold">{{ this.선택한뷰데이터정보.add_information }}</p>   
+              <p class="mb-4">{{ this.선택한뷰데이터정보.add_information }}</p>   
           </div>
         </div>
         <div class="row border-bottom border-secondary"></div>
